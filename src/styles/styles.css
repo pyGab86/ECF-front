@@ -1,0 +1,141 @@
+html {
+  margin: 0px;
+  padding: 0px;
+}
+html body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  background: #F6F8FC;
+  color: #1E1E1E;
+}
+html body .App {
+  margin: 0px;
+  padding: 0px;
+}
+html body .App .full-window {
+  width: 100%;
+  height: 100vh;
+}
+html body .App .flex {
+  display: flex;
+}
+html body .App .column {
+  flex-direction: column;
+}
+html body .App .justify-center {
+  justify-content: center;
+}
+html body .App .justify-between {
+  justify-content: space-between;
+}
+html body .App .justify-end {
+  justify-content: flex-end;
+}
+html body .App .align-center {
+  align-items: center;
+}
+html body .App .gap10 {
+  gap: 10px;
+}
+html body .App .minis-grid {
+  margin: 10vh 0;
+}
+html body .App .minis-grid .partenaire-structure-mini {
+  background-color: #C2E7FF;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  padding: 10px;
+  padding-right: 10%;
+  border-radius: 5px;
+}
+html body .App .minis-grid .partenaire-structure-mini p {
+  margin: 0;
+}
+html body .App .minis-grid .partenaire-structure-mini #name {
+  margin-bottom: 10px;
+}
+html body .App .minis-grid .partenaire-structure-mini #status {
+  margin-top: 10px;
+}
+html body .App #login-container {
+  background: white;
+  padding: 15px;
+  border-radius: 5px;
+  width: 30%;
+  max-width: 450px;
+  min-width: 250px;
+  height: 60%;
+  max-height: 250px;
+  min-height: 200px;
+  box-shadow: 5px 6px 15px 3px #C5C3C3;
+}
+html body .App #login-container #login {
+  width: 100%;
+  height: 100%;
+}
+html body .App input {
+  width: 100%;
+  max-width: 200px;
+  min-width: 120px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid #C5C3C3;
+}
+html body .App button {
+  width: 100%;
+  max-width: 181px;
+  min-width: 120px;
+  height: 30px;
+  background: black;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+html body .App button:hover {
+  cursor: pointer;
+}
+html body .App .naked-button {
+  background-color: transparent;
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  padding: 10px 0px;
+  color: #1E1E1E;
+}
+html body .App #main-app {
+  width: 100%;
+  min-height: 100vh;
+}
+html body .App #main-app #side-menu {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 25%;
+  height: 100%;
+  max-width: 250px;
+  background-color: #E8EBEE;
+}
+html body .App #main-app #side-menu #menu-links-container {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+html body .App #main-app #side-menu #menu-links-container a {
+  text-decoration: none;
+  color: #1E1E1E;
+}
+html body .App #main-app #home-container {
+  width: 100%;
+  height: 100%;
+}
+html body .App #main-app #home-container #home {
+  width: 75%;
+  height: 100%;
+}/*# sourceMappingURL=styles.css.map */
