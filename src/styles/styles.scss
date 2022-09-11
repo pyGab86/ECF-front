@@ -7,6 +7,8 @@ $dark: #1E1E1E;
 $low-contrast: #C5C3C3;
 $light-grey: #E8EBEE;
 $light-blue: #C2E7FF;
+$green: #157C19;
+$red: #AA280C;
 
 // Autre constantes
 $small-radius: 5px;
@@ -39,6 +41,7 @@ html {
 
             .flex {
                 display: flex;
+                flex-wrap: wrap;
             }
 
             .column {
@@ -61,12 +64,16 @@ html {
                 align-items: center;
             }
 
+            .align-end {
+                align-items: flex-end;
+            }
+
             .gap10 {
                 gap: 10px;
             }
 
             .minis-grid {
-                margin: 10vh 0;
+                margin: 5vh 0;
 
                 .partenaire-structure-mini {
                     background-color: $light-blue;
@@ -74,6 +81,12 @@ html {
                     padding: 10px;
                     padding-right: 10%;
                     border-radius: $small-radius;
+                    text-decoration: none;
+                    color: $dark;
+                    
+                    &:hover {
+                        cursor: pointer;
+                    }
 
                     p {
                         margin: 0;
@@ -83,13 +96,50 @@ html {
                         margin-bottom: 10px;
                     }
 
-                    #status {
-                        margin-top: 10px;
+                    div {
+
+                        span {
+                            width: 10px;
+                            aspect-ratio: 1;
+                            border-radius: 5px;
+                            transform: translateY(-3px);
+                        }
+
+                        .actif {
+                            background: $green;
+                        }
+
+                        .inactif {
+                            background: $red;
+                        }
+
+                        #status {
+                            margin-top: 10px;
+                            position: relative;
+                        }
+                    }
+
+                }
+
+                .add-partenaire-structure {
+                    background-color: $light-blue;
+                    border-radius: $small-radius;
+                    padding: 20px;
+
+                    svg {
+                        background-color: $dark;
+                        border-radius: 10vw;
+                    }
+
+                    p {
+                        font-weight: 600;
+                    }
+
+                    &:hover {
+                        cursor: pointer;
                     }
                 }
             }
-
-
 
             #login-container {
                 background: white;
@@ -141,6 +191,40 @@ html {
                 color: $dark;
             }
 
+            #modal-container {
+                z-index: 1000;
+                width: 100vw;
+                height: 100vh;
+                position: fixed;
+                left: 0px;
+                top: 0px;
+                margin: 0;
+
+                #modal {
+                    position: relative;
+                    background-color: white;
+                    box-shadow: 5px 5px 20px 1px rgb(100, 100, 100);
+                    width: 80vw;
+                    max-width: 500px;
+                    height: calc(95% - 15px);
+                    max-height: 700px;
+                    border-radius: $small-radius;
+                    padding: 15px;
+
+                    #modal-close {
+                        position: absolute;
+                        top: 0px;
+                        width: calc(100% - 30px);
+                        padding: 5px 0;
+                        border-bottom: 1px solid $light-grey;
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+
             #main-app {
                 width: 100%;
                 min-height: 100vh;
@@ -170,7 +254,7 @@ html {
                     height: 100%;
 
                     #home {
-                        width: 75%;
+                        width: calc(100% - min(300px, 30%));
                         height: 100%;
                     }
                 }

@@ -22,6 +22,7 @@ html body .App .full-window {
 }
 html body .App .flex {
   display: flex;
+  flex-wrap: wrap;
 }
 html body .App .column {
   flex-direction: column;
@@ -38,11 +39,14 @@ html body .App .justify-end {
 html body .App .align-center {
   align-items: center;
 }
+html body .App .align-end {
+  align-items: flex-end;
+}
 html body .App .gap10 {
   gap: 10px;
 }
 html body .App .minis-grid {
-  margin: 10vh 0;
+  margin: 5vh 0;
 }
 html body .App .minis-grid .partenaire-structure-mini {
   background-color: #C2E7FF;
@@ -52,6 +56,11 @@ html body .App .minis-grid .partenaire-structure-mini {
   padding: 10px;
   padding-right: 10%;
   border-radius: 5px;
+  text-decoration: none;
+  color: #1E1E1E;
+}
+html body .App .minis-grid .partenaire-structure-mini:hover {
+  cursor: pointer;
 }
 html body .App .minis-grid .partenaire-structure-mini p {
   margin: 0;
@@ -59,8 +68,36 @@ html body .App .minis-grid .partenaire-structure-mini p {
 html body .App .minis-grid .partenaire-structure-mini #name {
   margin-bottom: 10px;
 }
-html body .App .minis-grid .partenaire-structure-mini #status {
+html body .App .minis-grid .partenaire-structure-mini div span {
+  width: 10px;
+  aspect-ratio: 1;
+  border-radius: 5px;
+  transform: translateY(-3px);
+}
+html body .App .minis-grid .partenaire-structure-mini div .actif {
+  background: #157C19;
+}
+html body .App .minis-grid .partenaire-structure-mini div .inactif {
+  background: #AA280C;
+}
+html body .App .minis-grid .partenaire-structure-mini div #status {
   margin-top: 10px;
+  position: relative;
+}
+html body .App .minis-grid .add-partenaire-structure {
+  background-color: #C2E7FF;
+  border-radius: 5px;
+  padding: 20px;
+}
+html body .App .minis-grid .add-partenaire-structure svg {
+  background-color: #1E1E1E;
+  border-radius: 10vw;
+}
+html body .App .minis-grid .add-partenaire-structure p {
+  font-weight: 600;
+}
+html body .App .minis-grid .add-partenaire-structure:hover {
+  cursor: pointer;
 }
 html body .App #login-container {
   background: white;
@@ -110,6 +147,36 @@ html body .App .naked-button {
   padding: 10px 0px;
   color: #1E1E1E;
 }
+html body .App #modal-container {
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  margin: 0;
+}
+html body .App #modal-container #modal {
+  position: relative;
+  background-color: white;
+  box-shadow: 5px 5px 20px 1px rgb(100, 100, 100);
+  width: 80vw;
+  max-width: 500px;
+  height: calc(95% - 15px);
+  max-height: 700px;
+  border-radius: 5px;
+  padding: 15px;
+}
+html body .App #modal-container #modal #modal-close {
+  position: absolute;
+  top: 0px;
+  width: calc(100% - 30px);
+  padding: 5px 0;
+  border-bottom: 1px solid #E8EBEE;
+}
+html body .App #modal-container #modal #modal-close:hover {
+  cursor: pointer;
+}
 html body .App #main-app {
   width: 100%;
   min-height: 100vh;
@@ -136,6 +203,6 @@ html body .App #main-app #home-container {
   height: 100%;
 }
 html body .App #main-app #home-container #home {
-  width: 75%;
+  width: calc(100% - min(300px, 30%));
   height: 100%;
 }/*# sourceMappingURL=styles.css.map */
