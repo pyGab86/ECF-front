@@ -39,6 +39,52 @@ html {
                 height: 100vh;
             }
 
+            #search-bar {
+                background-color: $main;
+                position: fixed;
+                z-index: 998;
+                right: 20px;
+                top: 20px;
+                width: 33%;
+                max-width: 500px;
+                min-width: 260px;
+                border-radius: 10vh;
+                border: 1px solid $low-contrast;
+                height: 35px;
+                padding: 0 10px;
+
+                input {
+                    border: none;
+                    background: transparent;
+                    height: 100%;
+                    margin-left: 10px;
+                    width: 80%;
+                    max-width: none;
+                    color: $dark;
+
+                    &::placeholder {
+                        color: $low-contrast;
+                    }
+                }
+
+                button {
+                    position: relative;
+                    background: none;
+                    width: max-content;
+                    min-width: 21px;
+                    max-width: 30px;
+                    padding: none;
+                    margin: 0;
+                    border-left: 1px solid $low-contrast;
+                    border-radius: 0px;
+
+                    svg {
+                        margin-left: 13px;
+                    }
+                }
+
+            }
+
             .flex {
                 display: flex;
                 flex-wrap: wrap;
@@ -56,8 +102,16 @@ html {
                 justify-content: space-between;
             }
 
+            .justify-evenly {
+                justify-content: space-evenly;
+            }
+
             .justify-end {
                 justify-content: flex-end;
+            }
+
+            .align-start {
+                align-items: flex-start;
             }
 
             .align-center {
@@ -70,6 +124,38 @@ html {
 
             .gap10 {
                 gap: 10px;
+            }
+
+            .gap30 {
+                gap: 30px;
+            }
+
+            .toggle-container {
+                width: 50px;
+                height: 25px;
+                border-radius: 25px;
+                border: 1px solid $low-contrast;
+                padding: 0 4px;
+
+                div {
+                    height: 21px;
+                    aspect-ratio: 1;
+                    border-radius: 20px;
+                }
+            }
+
+            .toggle-activated {
+                
+                div {
+                    background-color: $green;
+                }
+            }
+
+            .toggle-desactivated {
+
+                div {
+                    background-color: $low-contrast;
+                }
             }
 
             .minis-grid {
@@ -159,13 +245,18 @@ html {
                 }
             }
 
-            input {
+            input, textarea {
                 width: 100%;
                 max-width: 200px;
                 min-width: 120px;
                 height: 30px;
                 border-radius: $small-radius;
                 border: 1px solid $low-contrast;
+                background: transparent;
+
+                &:focus {
+                    outline: none;
+                }
             }
 
             button {
@@ -210,6 +301,7 @@ html {
                     max-height: 700px;
                     border-radius: $small-radius;
                     padding: 15px;
+                    overflow-y: scroll;
 
                     #modal-close {
                         position: absolute;
@@ -222,6 +314,53 @@ html {
                             cursor: pointer;
                         }
                     }
+
+                    #modal-content {
+                        height: 95%;
+
+                        h2 {
+                            padding: 2.5vh 0;
+                        }
+
+                        input, textarea {
+                            display: block;
+                            margin: 15px;
+                        }
+
+                        #permissions-container {
+                            width: 100%;
+                            padding-left: 15px;
+                            margin-bottom: 20px;
+
+                            .toggle-container {
+                                margin-top: 10px;
+                                margin-bottom: 15px;
+                            }
+                        }
+
+                        #modal-confirm {
+                            margin: 20px 0;
+                        }
+
+                        #search-filters {
+                            margin-top: 50px;
+
+                            #checkbox-actives, #checkbox-inactives {
+                                width: 15px;
+                                height: 15px;
+                                border-radius: 15px;
+                                border: none;
+                                background-color: #307ec7;
+                                margin-top: 5px;
+                                margin-bottom: 10px;
+
+                                &:not(.selected) {
+                                    border: 1px solid $dark;
+                                    background-color: transparent;
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -231,6 +370,7 @@ html {
 
                 #side-menu {
                     position: fixed;
+                    z-index: 999;
                     left: 0px;
                     top: 0px;
                     width: 25%;
@@ -257,6 +397,53 @@ html {
                         width: calc(100% - min(300px, 30%));
                         height: 100%;
                     }
+                }
+
+                #partenaire-container {
+                    width: 100%;
+                    height: 100%;
+
+                    #partenaire {
+                        width: calc(100% - min(300px, 30%));
+                        height: 100%;
+
+                        #infos-partenaire {
+                            width: 100%;
+
+                            #description {
+                                max-width: 40%;
+                            }
+                        }
+                    }
+                }
+
+                #show-activated, #show-desactivated {
+                    margin-top: 1vh;
+                    background-color: transparent;
+                    border: 1px solid $dark;
+                    color: $dark;
+                }
+
+                #show-activated {
+
+                    &:hover, &:is(.on) {
+                        background-color: $green;
+                        border: none;
+                        color: white;
+                    }
+                }
+
+                #show-desactivated {
+
+                    &:hover, &:is(.on) {
+                        background-color: $red;
+                        border: none;
+                        color: white;
+                    }
+                }
+
+                h3 {
+                    margin-top: 5vh;
                 }
             }
         }

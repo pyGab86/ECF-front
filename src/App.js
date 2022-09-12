@@ -1,6 +1,7 @@
 
 import Login from './views/Login';
 import Home from './views/Home';
+import Partenaire from './views/Partenaire';
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,8 +13,9 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path='/' element={<Home/>} />
-          <Route path="/login" element={<Login/>} />
+          <Route path='/' element={ <Home/> } />
+          <Route path="/login" element={ <Login/> } />
+          <Route path='/partenaire/:email' element={ <Partenaire/> } />
         </Routes>
       </Router>
     </div>
