@@ -45,7 +45,7 @@ html {
                 z-index: 998;
                 right: 20px;
                 top: 20px;
-                width: 33%;
+                width: max-content;
                 max-width: 500px;
                 min-width: 260px;
                 border-radius: 10vh;
@@ -58,9 +58,10 @@ html {
                     background: transparent;
                     height: 100%;
                     margin-left: 10px;
-                    width: 80%;
+                    width: 70%;
                     max-width: none;
                     color: $dark;
+                    min-width: 200px;
 
                     &::placeholder {
                         color: $low-contrast;
@@ -75,8 +76,7 @@ html {
                     max-width: 30px;
                     padding: none;
                     margin: 0;
-                    border-left: 1px solid $low-contrast;
-                    border-radius: 0px;
+                    margin-right: 10px;
 
                     svg {
                         margin-left: 13px;
@@ -282,6 +282,30 @@ html {
                 color: $dark;
             }
 
+            #dialog {
+                position: fixed;
+                z-index: 1000;
+                left: 50%;
+                transform: translateX(-50%);
+                top: 20px;
+                background-color: white;
+                border-radius: $small-radius;
+                box-shadow: 5px 5px 20px 1px rgb(100, 100, 100);
+                padding: 15px;
+
+                #dialog-confirm-btns {
+                    width: 100%;
+                    margin-top: 20px;
+
+                    #cancel {
+                        background-color: transparent;
+                        border: 1px solid $dark;
+                        color: $dark;
+                    }
+
+                }
+            }
+
             #modal-container {
                 z-index: 1000;
                 width: 100vw;
@@ -298,7 +322,7 @@ html {
                     width: 80vw;
                     max-width: 500px;
                     height: calc(95% - 15px);
-                    max-height: 700px;
+                    max-height: 500px;
                     border-radius: $small-radius;
                     padding: 15px;
                     overflow-y: scroll;
@@ -410,8 +434,13 @@ html {
                         #infos-partenaire {
                             width: 100%;
 
+                            div {
+                                width: 30%;
+                            }
+
                             #description {
-                                max-width: 40%;
+                                width: 100%;
+                                text-align: justify;
                             }
                         }
                     }

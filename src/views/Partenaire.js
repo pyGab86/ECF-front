@@ -5,6 +5,7 @@ import AjoutPartenaireStructure from '../composants/AjoutPartenaireStructure'
 import PartenaireStructure from '../composants/PartenaireStructure'
 import Toggle from '../micro-composants/Toggle';
 import Searchbar from '../micro-composants/Searchbar';
+import Dialog from '../micro-composants/Dialog';
 
 const Partenaire = (props) => {
 
@@ -14,6 +15,7 @@ const Partenaire = (props) => {
     const [rue, setRue] = useState('Undefined')
     const [cpville, setCpville] = useState('Undefined')
     const [description, setDescription] = useState('Laudantium aliquam cupiditate commodi beatae eveniet, repellendus accusantium soluta libero ad est tenetur asperiores deserunt architecto consectetur nesciunt quo perferendis accusamus nobis.')
+    const [activated, setActivated] = useState(false)
     const [planning, setPlanning] = useState('desactivated')
     const [boissons, setBoissons] = useState('desactivated')
     const [barres, setBarres] = useState('desactivated')
@@ -22,6 +24,8 @@ const Partenaire = (props) => {
     const [filterType, setFilterType] = useState('both')
     const [activatedBtnSelected, setActivatedBtnSelected] = useState(false)
     const [desactivatedBtnSelected, setDesactivatedBtnSelected] = useState(false)
+
+    const [confirmStatusDialogShown, setConfirmDialogShown] = useState(false)
 
     // On comp mount: charger la data avec l'API et changer le state
     useEffect(() => {
@@ -56,6 +60,13 @@ const Partenaire = (props) => {
         }
     }
 
+    const changeStatus = (activated) => {
+
+        if (!confirmStatusDialogShown) {
+            setConfirmDialogShown(true)
+        }
+    }
+
     return (
         <div id="main-app">
             <SideMenu page="Partenaires"/>
@@ -71,7 +82,13 @@ const Partenaire = (props) => {
                             <p><strong>Rue :</strong> {rue}</p>
                             <p><strong>CP & ville :</strong> {cpville}</p>
                         </div>
-                        <p id="description">{description}</p>
+                        <div>
+                            <p id="description">{description}</p>
+                        </div>
+                        <div>
+                            <p style={{ color: `${activated ? '#157C19' : '#AA280C'}`}}><strong>Statut : {activated ? 'Activé' : 'Désactivé'}</strong></p>
+                            <button onClick={() => { changeStatus(activated) }}>{`${activated === 'activated' ? 'Désactiver' : 'Activer'}`}</button>
+                        </div>
                     </div>
 
                     <h3>Permissions globales du partenaire</h3>
@@ -113,6 +130,17 @@ const Partenaire = (props) => {
                     </div>
                 </div>
             </div>
+            {
+                confirmStatusDialogShown ?
+                <Dialog
+                    type="confirm"
+                    text={`Confirmez-vous vouloir changer le statut de ce partenaire ? Le nouveau statut sera réglé sur : ${activated ? 'Actif' : 'Désactivé'}`}
+                    onCancel={() => { console.log('status change canceled'); setConfirmDialogShown(false) }}
+                    onConfirm={() => { console.log('status change confirmed!'); setConfirmDialogShown(false) }}
+                />
+                :
+                null
+            }
         </div>
     )
 

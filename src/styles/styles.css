@@ -26,7 +26,9 @@ html body .App #search-bar {
   z-index: 998;
   right: 20px;
   top: 20px;
-  width: 33%;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
   max-width: 500px;
   min-width: 260px;
   border-radius: 10vh;
@@ -39,9 +41,10 @@ html body .App #search-bar input {
   background: transparent;
   height: 100%;
   margin-left: 10px;
-  width: 80%;
+  width: 70%;
   max-width: none;
   color: #1E1E1E;
+  min-width: 200px;
 }
 html body .App #search-bar input::-moz-placeholder {
   color: #C5C3C3;
@@ -62,8 +65,7 @@ html body .App #search-bar button {
   max-width: 30px;
   padding: none;
   margin: 0;
-  border-left: 1px solid #C5C3C3;
-  border-radius: 0px;
+  margin-right: 10px;
 }
 html body .App #search-bar button svg {
   margin-left: 13px;
@@ -226,6 +228,26 @@ html body .App .naked-button {
   padding: 10px 0px;
   color: #1E1E1E;
 }
+html body .App #dialog {
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 20px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 5px 5px 20px 1px rgb(100, 100, 100);
+  padding: 15px;
+}
+html body .App #dialog #dialog-confirm-btns {
+  width: 100%;
+  margin-top: 20px;
+}
+html body .App #dialog #dialog-confirm-btns #cancel {
+  background-color: transparent;
+  border: 1px solid #1E1E1E;
+  color: #1E1E1E;
+}
 html body .App #modal-container {
   z-index: 1000;
   width: 100vw;
@@ -242,7 +264,7 @@ html body .App #modal-container #modal {
   width: 80vw;
   max-width: 500px;
   height: calc(95% - 15px);
-  max-height: 700px;
+  max-height: 500px;
   border-radius: 5px;
   padding: 15px;
   overflow-y: scroll;
@@ -336,8 +358,12 @@ html body .App #main-app #partenaire-container #partenaire {
 html body .App #main-app #partenaire-container #partenaire #infos-partenaire {
   width: 100%;
 }
+html body .App #main-app #partenaire-container #partenaire #infos-partenaire div {
+  width: 30%;
+}
 html body .App #main-app #partenaire-container #partenaire #infos-partenaire #description {
-  max-width: 40%;
+  width: 100%;
+  text-align: justify;
 }
 html body .App #main-app #show-activated, html body .App #main-app #show-desactivated {
   margin-top: 1vh;
