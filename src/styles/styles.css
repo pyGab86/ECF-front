@@ -239,6 +239,10 @@ html body .App #dialog {
   box-shadow: 5px 5px 20px 1px rgb(100, 100, 100);
   padding: 15px;
 }
+html body .App #dialog p {
+  max-width: 400px;
+  text-align: center;
+}
 html body .App #dialog #dialog-confirm-btns {
   width: 100%;
   margin-top: 20px;
@@ -246,6 +250,37 @@ html body .App #dialog #dialog-confirm-btns {
 html body .App #dialog #dialog-confirm-btns #cancel {
   background-color: transparent;
   border: 1px solid #1E1E1E;
+  color: #1E1E1E;
+}
+html body .App #permissions-container {
+  width: 100%;
+  padding-left: 15px;
+  margin-bottom: 20px;
+}
+html body .App #permissions-container .toggle-container {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+html body .App #permissions-container label {
+  font-size: 12px;
+}
+html body .App #log {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+}
+html body .App .log-success {
+  background-color: #157C19;
+}
+html body .App .log-error {
+  background-color: #AA280C;
+}
+html body .App .log-info {
+  background-color: #C2E7FF;
   color: #1E1E1E;
 }
 html body .App #modal-container {
@@ -263,7 +298,9 @@ html body .App #modal-container #modal {
   box-shadow: 5px 5px 20px 1px rgb(100, 100, 100);
   width: 80vw;
   max-width: 500px;
-  height: calc(95% - 15px);
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
   max-height: 500px;
   border-radius: 5px;
   padding: 15px;
@@ -288,15 +325,6 @@ html body .App #modal-container #modal #modal-content h2 {
 html body .App #modal-container #modal #modal-content input, html body .App #modal-container #modal #modal-content textarea {
   display: block;
   margin: 15px;
-}
-html body .App #modal-container #modal #modal-content #permissions-container {
-  width: 100%;
-  padding-left: 15px;
-  margin-bottom: 20px;
-}
-html body .App #modal-container #modal #modal-content #permissions-container .toggle-container {
-  margin-top: 10px;
-  margin-bottom: 15px;
 }
 html body .App #modal-container #modal #modal-content #modal-confirm {
   margin: 20px 0;
@@ -347,22 +375,35 @@ html body .App #main-app #home-container #home {
   width: calc(100% - min(300px, 30%));
   height: 100%;
 }
-html body .App #main-app #partenaire-container {
+html body .App #main-app #partenaire-structure-container {
   width: 100%;
   height: 100%;
 }
-html body .App #main-app #partenaire-container #partenaire {
+html body .App #main-app #partenaire-structure-container #partenaire-structure {
   width: calc(100% - min(300px, 30%));
   height: 100%;
+  margin-top: 20px;
 }
-html body .App #main-app #partenaire-container #partenaire #infos-partenaire {
-  width: 100%;
+html body .App #main-app #partenaire-structure-container #partenaire-structure #status-element {
+  font-size: 20px;
 }
-html body .App #main-app #partenaire-container #partenaire #infos-partenaire div {
-  width: 30%;
+html body .App #main-app #partenaire-structure-container #partenaire-structure #infos-partenaire-structure {
+  width: calc(100% - 50px);
+  margin-top: 25px;
+  border: 1px solid #C5C3C3;
+  padding: 15px;
+  border-radius: 5px;
 }
-html body .App #main-app #partenaire-container #partenaire #infos-partenaire #description {
-  width: 100%;
+html body .App #main-app #partenaire-structure-container #partenaire-structure #infos-partenaire-structure #basic-info {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+html body .App #main-app #partenaire-structure-container #partenaire-structure #infos-partenaire-structure #description {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 65%;
   text-align: justify;
 }
 html body .App #main-app #show-activated, html body .App #main-app #show-desactivated {

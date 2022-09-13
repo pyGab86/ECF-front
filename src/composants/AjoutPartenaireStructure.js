@@ -6,7 +6,7 @@ const AjoutPartenaireStructure = (props) => {
 
     const [modalOpen, setModalOpen] = useState(false)
 
-    // State de la modale d'ajout
+    // State de la modale d'ajout (partenaire ou structure)
     // Partenaire
     const [nom, setNom] = useState('')
     const [prenom, setPrenom] = useState('')
@@ -18,6 +18,17 @@ const AjoutPartenaireStructure = (props) => {
     const [venteBoissons, setVenteBoissons] = useState("desactivated")
     const [venteBarres, setVenteBarres] = useState("desactivated")
     const [emailing, setEmailing] = useState("desactivated")
+    // Structure
+    const [nomStructure, setNomStructure] = useState('')
+    const [prenomStructure, setPrenomStructure] = useState('')
+    const [emailStructure, setEmailStructure] = useState('')
+    const [numeroetvoieStructure, setNumeroetvoieStructure] = useState('')
+    const [cpvilleStructure, setCpvilleStructure] = useState('')
+    const [descriptionStructure, setDescriptionStructure] = useState('')
+    const [planningStructure, setPlanningStructure] = useState("desactivated")
+    const [venteBoissonsStructure, setVenteBoissonsStructure] = useState("desactivated")
+    const [venteBarresStructure, setVenteBarresStructure] = useState("desactivated")
+    const [emailingStructure, setEmailingStructure] = useState("desactivated")
 
     const manageModal = () => {
         if (!modalOpen) {
@@ -26,8 +37,7 @@ const AjoutPartenaireStructure = (props) => {
     }
 
     const ajouter = async () => {
-        // api.addNew(props.type, {})
-        console.log(nom, prenom, email, numeroetvoie, cpville, description, planning, venteBoissons, venteBarres, emailing)
+        // api.addNew({ type: props.type, })
     }
 
     return (
@@ -77,7 +87,34 @@ const AjoutPartenaireStructure = (props) => {
                                     </>
                                     :
                                     <>
-                                        <input placeholder="structure"></input>
+                                        <input onChange={(e) => { setNomStructure(e.target.value) }} placeholder="Nom gérant" id="lastname-input-structure"></input>
+                                        <input onChange={(e) => { setPrenomStructure(e.target.value) }} placeholder="Prénom gérant" id="firstname-input-structure"></input>
+                                        <input onChange={(e) => { setEmailStructure(e.target.value) }} placeholder="Email gérant" id="email-input-structure" type="email"></input>
+                                        <input onChange={(e) => { setNumeroetvoieStructure(e.target.value) }} placeholder="Numéro et voie" id="voie-input-structure"></input>
+                                        <input onChange={(e) => { setCpvilleStructure(e.target.value) }} placeholder="Code postal et Ville" id="ville-input-structure"></input>
+                                        <textarea onChange={(e) => { setDescriptionStructure(e.target.value) }} placeholder="Description" id="description-input-structure"></textarea>
+                                        <div id="permissions-container">
+                                            <Toggle 
+                                                label="Gestion planning Equipe"
+                                                default="desactivated"
+                                                onActivate={() => { setPlanningStructure(true) }}
+                                                onDesactivate={() => { setPlanningStructure(false) }} />
+                                            <Toggle 
+                                                label="Vente de boissons"
+                                                default="desactivated"
+                                                onActivate={() => { setVenteBoissonsStructure(true) }}
+                                                onDesactivate={() => { setVenteBoissonsStructure(false) }} />
+                                            <Toggle 
+                                                label="Vente barres énergétiques"
+                                                default="desactivated"
+                                                onActivate={() => { setVenteBarresStructure(true) }}
+                                                onDesactivate={() => { setVenteBarresStructure(false) }} />
+                                            <Toggle 
+                                                label="Emailing"
+                                                default="desactivated"
+                                                onActivate={() => { setEmailingStructure(true) }}
+                                                onDesactivate={() => { setEmailingStructure(false) }} />
+                                        </div>
                                     </>
                                 }
                                 <button id="modal-confirm" onClick={() => ajouter()}>Ajouter</button>

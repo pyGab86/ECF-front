@@ -7,6 +7,14 @@ import Toggle from '../micro-composants/Toggle';
 import Searchbar from '../micro-composants/Searchbar';
 import Dialog from '../micro-composants/Dialog';
 
+/* 
+    La page permettant de voir un partenaire. Les fonctionnalités sont :
+    - Voir ses infos
+    - Changer son statut
+    - Voir et modifier ses permissions globales
+    - Voir ses structures (filtrer actives & inactives)
+    - Ajouter une structure
+*/
 const Partenaire = (props) => {
 
     const [nom, setNom] = useState('Undefined')
@@ -71,28 +79,28 @@ const Partenaire = (props) => {
         <div id="main-app">
             <SideMenu page="Partenaires"/>
             <Searchbar/>
-            <div id='partenaire-container' className='flex justify-end'>
-                <div id="partenaire">
+            <div id='partenaire-structure-container' className='flex justify-end'>
+                <div id="partenaire-structure">
                     <h1>Gestion Partenaire</h1>
-                    <div id="infos-partenaire" className='flex align-start gap30'>
-                        <div>
+                    <div id='status-element' className='flex align-center gap30'>
+                        <p style={{ color: `${activated ? '#157C19' : '#AA280C'}`}}><strong>Statut : {activated ? 'Activé' : 'Désactivé'}</strong></p>
+                        <button onClick={() => { changeStatus(activated) }}>{`${activated === 'activated' ? 'Désactiver' : 'Activer'}`}</button>
+                    </div>
+                    <div id="infos-partenaire-structure" className='flex align-start justify-between gap30'>
+                        <div id='basic-info'>
                             <p><strong>Nom :</strong> {nom}</p>
                             <p><strong>Prénom :</strong> {prenom}</p>
                             <p><strong>Email :</strong> {email}</p>
                             <p><strong>Rue :</strong> {rue}</p>
                             <p><strong>CP & ville :</strong> {cpville}</p>
                         </div>
-                        <div>
-                            <p id="description">{description}</p>
-                        </div>
-                        <div>
-                            <p style={{ color: `${activated ? '#157C19' : '#AA280C'}`}}><strong>Statut : {activated ? 'Activé' : 'Désactivé'}</strong></p>
-                            <button onClick={() => { changeStatus(activated) }}>{`${activated === 'activated' ? 'Désactiver' : 'Activer'}`}</button>
+                        <div id="description">
+                            <p>{description}</p>
                         </div>
                     </div>
 
                     <h3>Permissions globales du partenaire</h3>
-                    <div id="permissions-container">
+                    <div id="permissions-container" className='flex gap30 align-start justify-start'>
                         <Toggle 
                             label="Gestion planning Equipe"
                             default={planning}
@@ -134,7 +142,7 @@ const Partenaire = (props) => {
                 confirmStatusDialogShown ?
                 <Dialog
                     type="confirm"
-                    text={`Confirmez-vous vouloir changer le statut de ce partenaire ? Le nouveau statut sera réglé sur : ${activated ? 'Actif' : 'Désactivé'}`}
+                    text={`Confirmez-vous vouloir changer le statut de ce partenaire ? Le nouveau statut sera réglé sur : ${activated ? 'Désactivé' : 'Actif'}`}
                     onCancel={() => { console.log('status change canceled'); setConfirmDialogShown(false) }}
                     onConfirm={() => { console.log('status change confirmed!'); setConfirmDialogShown(false) }}
                 />

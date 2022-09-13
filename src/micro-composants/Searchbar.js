@@ -81,7 +81,7 @@ const Searchbar = () => {
             {
                 resultsShown ?
                 <Modal
-                    onClose={() => { setSettingsWindowShown(false) }}
+                    onClose={() => { setResultsShown(false) }}
                     content={
                         <div id="results">
                             <h2>Partenaires</h2>

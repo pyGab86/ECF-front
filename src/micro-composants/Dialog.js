@@ -11,11 +11,17 @@ const Dialog = (props) => {
         return (
             <div id="dialog" className="confirm-dialog flex column justify-evenly align-center">
                 <h3>Confirmation</h3>
-                <p>{typeof props.text != "undefined" ? props.text : "Veuillez confirmer ce changement" }</p>
+                <p>{ typeof props.text != "undefined" ? props.text : "Veuillez confirmer ce changement" }</p>
                 <div id="dialog-confirm-btns" className="flex column align-center gap10">
                     <button id="cancel" onClick={() => { props.onCancel() }}>Annuler</button>
                     <button onClick={() => { props.onConfirm() }}>Confirmer</button>
                 </div>
+            </div>
+        )
+    } else {
+        return (
+            <div id="log" className={`log-${props.logLevel}`}>
+                { props.message }
             </div>
         )
     }
