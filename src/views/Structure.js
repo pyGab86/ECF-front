@@ -30,14 +30,19 @@ const Structure = (props) => {
 
     return (
         <div id="main-app">
-            <SideMenu page="Partenaires"/>
+            <SideMenu page="Structures"/>
             <Searchbar/>
             <div id='partenaire-structure-container' className='flex justify-end'>
                 <div id="partenaire-structure">
                     <h1>Gestion Structure</h1>
                     <div id='status-element' className='flex align-center gap30'>
                         <p style={{ color: `${activated ? '#157C19' : '#AA280C'}`}}><strong>Statut : {activated ? 'Activée' : 'Désactivée'}</strong></p>
-                        <button onClick={() => { changeStatus(activated) }}>{`${activated === 'activated' ? 'Désactiver' : 'Activer'}`}</button>
+                        {
+                            props.rights === "full" ?
+                            <button onClick={() => { changeStatus(activated) }}>{`${activated === 'activated' ? 'Désactiver' : 'Activer'}`}</button>
+                            :
+                            null
+                        }
                     </div>
                     <div id="infos-partenaire-structure" className='flex align-start justify-between gap30'>
                         <div id='basic-info'>
@@ -54,26 +59,55 @@ const Structure = (props) => {
 
                     <h3>Permissions de la structure</h3>
                     <div id="permissions-container" className='flex gap30 align-start justify-start'>
-                        <Toggle 
-                            label="Gestion planning Equipe"
-                            default={planning}
-                            onActivate={() => { setPlanning(true) }}
-                            onDesactivate={() => { setPlanning(false) }} />
-                        <Toggle 
-                            label="Vente de boissons"
-                            default={boissons}
-                            onActivate={() => { setBoissons(true) }}
-                            onDesactivate={() => { setBoissons(false) }} />
-                        <Toggle 
-                            label="Vente barres énergétiques"
-                            default={barres}
-                            onActivate={() => { setBarres(true) }}
-                            onDesactivate={() => { setBarres(false) }} />
-                        <Toggle 
-                            label="Emailing"
-                            default={emailing}
-                            onActivate={() => { setEmailing(true) }}
-                            onDesactivate={() => { setEmailing(false) }} />
+                        {
+                            props.rights === "full" ?
+                            <>
+                                <Toggle
+                                    canEdit={true}
+                                    label="Gestion planning Equipe"
+                                    default={planning}
+                                    onActivate={() => { setPlanning(true) }}
+                                    onDesactivate={() => { setPlanning(false) }} />
+                                <Toggle
+                                    canEdit={true}
+                                    label="Vente de boissons"
+                                    default={boissons}
+                                    onActivate={() => { setBoissons(true) }}
+                                    onDesactivate={() => { setBoissons(false) }} />
+                                <Toggle
+                                    canEdit={true}
+                                    label="Vente barres énergétiques"
+                                    default={barres}
+                                    onActivate={() => { setBarres(true) }}
+                                    onDesactivate={() => { setBarres(false) }} />
+                                <Toggle
+                                    canEdit={true}
+                                    label="Emailing"
+                                    default={emailing}
+                                    onActivate={() => { setEmailing(true) }}
+                                    onDesactivate={() => { setEmailing(false) }} />
+                            </>
+                            :
+                            <>
+                                <Toggle
+                                    canEdit={false}
+                                    label="Gestion planning Equipe"
+                                    default={planning}/>
+                                <Toggle
+                                    canEdit={false}
+                                    label="Vente de boissons"
+                                    default={boissons} />
+                                <Toggle
+                                    canEdit={false}
+                                    label="Vente barres énergétiques"
+                                    default={barres} />
+                                <Toggle
+                                    canEdit={false}
+                                    label="Emailing"
+                                    default={emailing} />
+                            </>
+
+                        }
                     </div>
                 </div>
             </div>

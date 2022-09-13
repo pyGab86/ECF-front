@@ -63,22 +63,26 @@ const AjoutPartenaireStructure = (props) => {
                                         <input onChange={(e) => { setCpville(e.target.value) }} placeholder="Code postal et Ville" id="ville-input"></input>
                                         <textarea onChange={(e) => { setDescription(e.target.value) }} placeholder="Description" id="description-input"></textarea>
                                         <div id="permissions-container">
-                                            <Toggle 
+                                            <Toggle
+                                                canEdit={true}
                                                 label="Gestion planning Equipe"
                                                 default="desactivated"
                                                 onActivate={() => { setPlanning(true) }}
                                                 onDesactivate={() => { setPlanning(false) }} />
                                             <Toggle 
+                                                canEdit={true}
                                                 label="Vente de boissons"
                                                 default="desactivated"
                                                 onActivate={() => { setVenteBoissons(true) }}
                                                 onDesactivate={() => { setVenteBoissons(false) }} />
-                                            <Toggle 
+                                            <Toggle
+                                                canEdit={true}
                                                 label="Vente barres énergétiques"
                                                 default="desactivated"
                                                 onActivate={() => { setVenteBarres(true) }}
                                                 onDesactivate={() => { setVenteBarres(false) }} />
-                                            <Toggle 
+                                            <Toggle
+                                                canEdit={true}
                                                 label="Emailing"
                                                 default="desactivated"
                                                 onActivate={() => { setEmailing(true) }}
@@ -94,22 +98,26 @@ const AjoutPartenaireStructure = (props) => {
                                         <input onChange={(e) => { setCpvilleStructure(e.target.value) }} placeholder="Code postal et Ville" id="ville-input-structure"></input>
                                         <textarea onChange={(e) => { setDescriptionStructure(e.target.value) }} placeholder="Description" id="description-input-structure"></textarea>
                                         <div id="permissions-container">
-                                            <Toggle 
+                                            <Toggle
+                                                canEdit={true}
                                                 label="Gestion planning Equipe"
                                                 default="desactivated"
                                                 onActivate={() => { setPlanningStructure(true) }}
                                                 onDesactivate={() => { setPlanningStructure(false) }} />
-                                            <Toggle 
+                                            <Toggle
+                                                canEdit={true}
                                                 label="Vente de boissons"
                                                 default="desactivated"
                                                 onActivate={() => { setVenteBoissonsStructure(true) }}
                                                 onDesactivate={() => { setVenteBoissonsStructure(false) }} />
-                                            <Toggle 
+                                            <Toggle
+                                                canEdit={true}
                                                 label="Vente barres énergétiques"
                                                 default="desactivated"
                                                 onActivate={() => { setVenteBarresStructure(true) }}
                                                 onDesactivate={() => { setVenteBarresStructure(false) }} />
-                                            <Toggle 
+                                            <Toggle
+                                                canEdit={true} 
                                                 label="Emailing"
                                                 default="desactivated"
                                                 onActivate={() => { setEmailingStructure(true) }}

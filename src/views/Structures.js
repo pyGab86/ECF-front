@@ -5,7 +5,7 @@ import PartenaireStructure from '../composants/PartenaireStructure'
 import AjoutPartenaireStructure from '../composants/AjoutPartenaireStructure'
 import Searchbar from '../micro-composants/Searchbar'
 
-const Home = (props) => {
+const Structures = () => {
 
     const [filterType, setFilterType] = useState('both')
     const [activatedBtnSelected, setActivatedBtnSelected] = useState(false)
@@ -50,23 +50,23 @@ const Home = (props) => {
 
     return (
         <div id="main-app">
-            <SideMenu page="Partenaires"/>
+            <SideMenu page="Structures"/>
             <Searchbar/>
             <div id='home-container' className='flex justify-end'>
                 <div id="home">
                     <h1>Bienvenue !</h1>
-                    <p>Liste des partenaires</p>
+                    <p>Liste des Structures</p>
                     <div className='flex align-center gap30'>
-                        <button className='off' id='show-activated' onClick={() => { manageFilterButtons('activated') }}>Partenaires actifs</button>
-                        <button className='off' id='show-desactivated' onClick={() => { manageFilterButtons('desactivated') }}>Partenaires inactifs</button>
+                        <button className='off' id='show-activated' onClick={() => { manageFilterButtons('activated') }}>Structures actives</button>
+                        <button className='off' id='show-desactivated' onClick={() => { manageFilterButtons('desactivated') }}>Structures inactives</button>
                     </div>
                     <div className='minis-grid flex gap10'>
-                        <AjoutPartenaireStructure type="partenaire"/>
-                        <PartenaireStructure filter={filterType} rights={props.rights} type="partenaire" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Inactif"/>
-                        <PartenaireStructure filter={filterType} rights={props.rights} type="partenaire" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Inactif"/>
-                        <PartenaireStructure filter={filterType} rights={props.rights} type="partenaire" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
-                        <PartenaireStructure filter={filterType} rights={props.rights} type="partenaire" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
-                        <PartenaireStructure filter={filterType} rights={props.rights} type="partenaire" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
+                        <AjoutPartenaireStructure type="structure"/>
+                        <PartenaireStructure filter={filterType} rights="full" type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Inactif"/>
+                        <PartenaireStructure filter={filterType} rights="full" type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Inactif"/>
+                        <PartenaireStructure filter={filterType} rights="full" type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
+                        <PartenaireStructure filter={filterType} rights="full" type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
+                        <PartenaireStructure filter={filterType} rights="full" type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
                     </div>
                 </div>
             </div>
@@ -75,4 +75,4 @@ const Home = (props) => {
 
 }
 
-export default Home
+export default Structures

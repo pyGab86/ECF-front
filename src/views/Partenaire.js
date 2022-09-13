@@ -28,6 +28,7 @@ const Partenaire = (props) => {
     const [boissons, setBoissons] = useState('desactivated')
     const [barres, setBarres] = useState('desactivated')
     const [emailing, setEmailing] = useState('desactivated')
+    const [statutAccesDonnees, setStatutAccesDonnees] = useState('non confirmé')
 
     const [filterType, setFilterType] = useState('both')
     const [activatedBtnSelected, setActivatedBtnSelected] = useState(false)
@@ -75,6 +76,10 @@ const Partenaire = (props) => {
         }
     }
 
+    const dataAccess = (bool) => {
+        // Api utilisée
+    }
+
     return (
         <div id="main-app">
             <SideMenu page="Partenaires"/>
@@ -84,8 +89,25 @@ const Partenaire = (props) => {
                     <h1>Gestion Partenaire</h1>
                     <div id='status-element' className='flex align-center gap30'>
                         <p style={{ color: `${activated ? '#157C19' : '#AA280C'}`}}><strong>Statut : {activated ? 'Activé' : 'Désactivé'}</strong></p>
-                        <button onClick={() => { changeStatus(activated) }}>{`${activated === 'activated' ? 'Désactiver' : 'Activer'}`}</button>
+                        {
+                            props.rights === 'full' ?
+                            <button onClick={() => { changeStatus(activated) }}>{`${activated === 'activated' ? 'Désactiver' : 'Activer'}`}</button>
+                            :
+                            null
+                        }
                     </div>
+                    {
+                        props.rights === 'full' ?
+                        null:
+                        <div>
+                            <h4>Confirmer l'accès aux données</h4>
+                            <p>Si vos informations, vos permissions globales et vos structures sont bien affichées ci-dessous, veuillez cliquer sur "Confirmer". Autrement, veuillez cliquer sur "Invalider"</p>
+                            <div className='flex align-center gap30'>
+                                <button onClick={() => { dataAccess(false) }} id="infirmer-btn">Infirmer</button>
+                                <button onClick={() => { dataAccess(true) }} id="confirmer-btn">Confirmer</button>
+                            </div>
+                        </div>
+                    }
                     <div id="infos-partenaire-structure" className='flex align-start justify-between gap30'>
                         <div id='basic-info'>
                             <p><strong>Nom :</strong> {nom}</p>
@@ -93,48 +115,98 @@ const Partenaire = (props) => {
                             <p><strong>Email :</strong> {email}</p>
                             <p><strong>Rue :</strong> {rue}</p>
                             <p><strong>CP & ville :</strong> {cpville}</p>
+                            {
+                                props.rights === 'full' ?
+                                <p><strong>Statut accès données : {statutAccesDonnees}</strong></p>
+                                :
+                                null
+                            }
                         </div>
                         <div id="description">
                             <p>{description}</p>
                         </div>
                     </div>
 
-                    <h3>Permissions globales du partenaire</h3>
+                    {
+                        props.rights === 'full' ? 
+                        <h3>Permissions globales du partenaire</h3>
+                        :
+                        <h3>Mes permissions globales</h3>
+                    }
                     <div id="permissions-container" className='flex gap30 align-start justify-start'>
-                        <Toggle 
-                            label="Gestion planning Equipe"
-                            default={planning}
-                            onActivate={() => { setPlanning(true) }}
-                            onDesactivate={() => { setPlanning(false) }} />
-                        <Toggle 
-                            label="Vente de boissons"
-                            default={boissons}
-                            onActivate={() => { setBoissons(true) }}
-                            onDesactivate={() => { setBoissons(false) }} />
-                        <Toggle 
-                            label="Vente barres énergétiques"
-                            default={barres}
-                            onActivate={() => { setBarres(true) }}
-                            onDesactivate={() => { setBarres(false) }} />
-                        <Toggle 
-                            label="Emailing"
-                            default={emailing}
-                            onActivate={() => { setEmailing(true) }}
-                            onDesactivate={() => { setEmailing(false) }} />
+                        {
+                            props.rights === 'full' ?
+                            <>
+                                <Toggle
+                                    canEdit={true}
+                                    label="Gestion planning Equipe"
+                                    default={planning}
+                                    onActivate={() => { setPlanning(true) }}
+                                    onDesactivate={() => { setPlanning(false) }} />
+                                <Toggle
+                                    canEdit={true}
+                                    label="Vente de boissons"
+                                    default={boissons}
+                                    onActivate={() => { setBoissons(true) }}
+                                    onDesactivate={() => { setBoissons(false) }} />
+                                <Toggle
+                                    canEdit={true}
+                                    label="Vente barres énergétiques"
+                                    default={barres}
+                                    onActivate={() => { setBarres(true) }}
+                                    onDesactivate={() => { setBarres(false) }} />
+                                <Toggle
+                                    canEdit={true}
+                                    label="Emailing"
+                                    default={emailing}
+                                    onActivate={() => { setEmailing(true) }}
+                                    onDesactivate={() => { setEmailing(false) }} />
+                            </>
+                            :
+                            <>
+                                <Toggle
+                                    canEdit={false}
+                                    label="Gestion planning Equipe"
+                                    default={planning} />
+                                <Toggle
+                                    canEdit={false}
+                                    label="Vente de boissons"
+                                    default={boissons} />
+                                <Toggle
+                                    canEdit={false}
+                                    label="Vente barres énergétiques"
+                                    default={barres} />
+                                <Toggle
+                                    canEdit={false}
+                                    label="Emailing"
+                                    default={emailing} />
+                            </>
+                            
+                        }
                     </div>
 
-                    <h3>Structures du partenaire</h3>
+                    {
+                        props.rights === 'full' ?
+                        <h3>Structures du partenaire</h3>
+                        :
+                        <h3>Mes structures</h3>
+                    }
                     <div className='flex align-center gap30'>
                         <button className='off' id='show-activated' onClick={() => { manageFilterButtons('activated') }}>Structures actives</button>
                         <button className='off' id='show-desactivated' onClick={() => { manageFilterButtons('desactivated') }}>Structures inactives</button>
                     </div>
                     <div className='minis-grid flex gap10'>
-                        <AjoutPartenaireStructure type="structure"/>
-                        <PartenaireStructure filter={filterType} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Inactif"/>
-                        <PartenaireStructure filter={filterType} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Inactif"/>
-                        <PartenaireStructure filter={filterType} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
-                        <PartenaireStructure filter={filterType} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
-                        <PartenaireStructure filter={filterType} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
+                        {
+                            props.rights === 'full' ?
+                            <AjoutPartenaireStructure type="structure"/>
+                            :
+                            null
+                        }
+                        <PartenaireStructure filter={filterType} rights={props.rights} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Inactif"/>
+                        <PartenaireStructure filter={filterType} rights={props.rights} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Inactif"/>
+                        <PartenaireStructure filter={filterType} rights={props.rights} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
+                        <PartenaireStructure filter={filterType} rights={props.rights} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
+                        <PartenaireStructure filter={filterType} rights={props.rights} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
                     </div>
                 </div>
             </div>

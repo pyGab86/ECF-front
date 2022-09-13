@@ -272,6 +272,7 @@ html body .App #log {
   border-radius: 5px;
   color: white;
   text-align: center;
+  padding: 10px;
 }
 html body .App .log-success {
   background-color: #157C19;
@@ -386,6 +387,12 @@ html body .App #main-app #partenaire-structure-container #partenaire-structure {
 }
 html body .App #main-app #partenaire-structure-container #partenaire-structure #status-element {
   font-size: 20px;
+}
+html body .App #main-app #partenaire-structure-container #partenaire-structure #infirmer-btn {
+  background-color: #AA280C;
+}
+html body .App #main-app #partenaire-structure-container #partenaire-structure #confirmer-btn {
+  background-color: #157C19;
 }
 html body .App #main-app #partenaire-structure-container #partenaire-structure #infos-partenaire-structure {
   width: calc(100% - 50px);

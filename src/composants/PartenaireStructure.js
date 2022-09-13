@@ -3,9 +3,14 @@
 // de base d'un partenaire ou d'une structure
 const PartenaireStructure = (props) => {
 
+    let link = props.rights === 'full' ? 
+        `/${props.type}/${props.email}`
+        :
+        `/${props.type}-notadmin/${props.email}`
+
     return (
         props.filter === 'both' ?
-            <a href={`/${props.type}/${props.email}`} className="partenaire-structure-mini">
+            <a href={link} className="partenaire-structure-mini">
                 <p id="name"><strong>{props.prenom} {props.nom}</strong></p>
                 <p>{props.rue}</p>
                 <p>{props.cpville}</p>
@@ -17,7 +22,7 @@ const PartenaireStructure = (props) => {
             </a>
         :
         props.filter === 'activated' && props.status === 'Actif' ?
-            <a href={`/${props.type}/${props.email}`} className="partenaire-structure-mini">
+            <a href={link} className="partenaire-structure-mini">
                 <p id="name"><strong>{props.prenom} {props.nom}</strong></p>
                 <p>{props.rue}</p>
                 <p>{props.cpville}</p>
@@ -29,7 +34,7 @@ const PartenaireStructure = (props) => {
             </a>
         :
         props.filter === 'desactivated' && props.status === "Inactif" ?
-            <a href={`/${props.type}/${props.email}`} className="partenaire-structure-mini">
+            <a href={link} className="partenaire-structure-mini">
                 <p id="name"><strong>{props.prenom} {props.nom}</strong></p>
                 <p>{props.rue}</p>
                 <p>{props.cpville}</p>

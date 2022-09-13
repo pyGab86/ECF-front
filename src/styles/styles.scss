@@ -334,6 +334,7 @@ html {
                 border-radius: $small-radius;
                 color: white;
                 text-align: center;
+                padding: 10px;
             }
 
             .log-success {
@@ -466,6 +467,14 @@ html {
 
                         #status-element {
                             font-size: 20px;
+                        }
+
+                        #infirmer-btn {
+                            background-color: $red;
+                        }
+
+                        #confirmer-btn {
+                            background-color: $green;
                         }
 
                         #infos-partenaire-structure {
