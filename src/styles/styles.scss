@@ -174,8 +174,10 @@ html {
                         cursor: pointer;
                     }
 
-                    p {
+                    p, a {
                         margin: 0;
+                        color: $dark;
+                        text-decoration: none;
                     }
 
                     #name {
@@ -328,6 +330,7 @@ html {
 
             #log {
                 position: fixed;
+                z-index: 1000;
                 top: 20px;
                 left: 50%;
                 transform: translateX(-50%);

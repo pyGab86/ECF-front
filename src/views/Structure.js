@@ -3,7 +3,7 @@ import Searchbar from "../micro-composants/Searchbar"
 import Toggle from "../micro-composants/Toggle";
 import Dialog from "../micro-composants/Dialog";
 import { useEffect, useState } from 'react'
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Structure = (props) => {
 
@@ -27,6 +27,23 @@ const Structure = (props) => {
             setConfirmDialogShown(true)
         }
     }
+
+    // Vérifier que l'utilisateur est connecté
+    // Si non -> redirection vers page login
+    // Si oui mais que partenaire ou structure : redirection en arrière
+    const navigate = useNavigate() 
+    useEffect(() => {
+        if (localStorage.getItem('email') === null) {
+            //navigate('/login')
+        }
+        if (localStorage.getItem('utype') != 'admin') {
+            if (localStorage.getItem('utype') === 'partenaire') {
+                //navigate('/partenaire-notadmin')
+            } else {
+                //navigate(`/structure-notadmin/:${localStorage.getItem('email')}`)
+            }
+        }
+    }, [])
 
     return (
         <div id="main-app">

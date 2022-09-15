@@ -21,7 +21,7 @@ const PartenaireStructure = (props) => {
                 </div>
             </a>
         :
-        props.filter === 'activated' && props.status === 'Actif' ?
+        props.filter === 'activated' && props.status === 'actif' ?
             <a href={link} className="partenaire-structure-mini">
                 <p id="name"><strong>{props.prenom} {props.nom}</strong></p>
                 <p>{props.rue}</p>
@@ -33,7 +33,7 @@ const PartenaireStructure = (props) => {
                 </div>
             </a>
         :
-        props.filter === 'desactivated' && props.status === "Inactif" ?
+        props.filter === 'desactivated' && props.status === "inactif" ?
             <a href={link} className="partenaire-structure-mini">
                 <p id="name"><strong>{props.prenom} {props.nom}</strong></p>
                 <p>{props.rue}</p>

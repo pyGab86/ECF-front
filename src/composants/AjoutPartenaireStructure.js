@@ -1,6 +1,8 @@
 import Modal from "./Modal"
 import { useState } from "react"
 import Toggle from "../micro-composants/Toggle"
+import back from "../data/Back"
+import Dialog from "../micro-composants/Dialog"
 
 const AjoutPartenaireStructure = (props) => {
 
@@ -12,12 +14,13 @@ const AjoutPartenaireStructure = (props) => {
     const [prenom, setPrenom] = useState('')
     const [email, setEmail] = useState('')
     const [numeroetvoie, setNumeroetvoie] = useState('')
-    const [cpville, setCpville] = useState('')
+    const [codePostal, setCodePostal] = useState('')
+    const [ville, setVille] = useState('')
     const [description, setDescription] = useState('')
-    const [planning, setPlanning] = useState("desactivated")
-    const [venteBoissons, setVenteBoissons] = useState("desactivated")
-    const [venteBarres, setVenteBarres] = useState("desactivated")
-    const [emailing, setEmailing] = useState("desactivated")
+    const [planning, setPlanning] = useState(false)
+    const [venteBoissons, setVenteBoissons] = useState(false)
+    const [venteBarres, setVenteBarres] = useState(false)
+    const [emailing, setEmailing] = useState(false)
     // Structure
     const [nomStructure, setNomStructure] = useState('')
     const [prenomStructure, setPrenomStructure] = useState('')
@@ -25,10 +28,13 @@ const AjoutPartenaireStructure = (props) => {
     const [numeroetvoieStructure, setNumeroetvoieStructure] = useState('')
     const [cpvilleStructure, setCpvilleStructure] = useState('')
     const [descriptionStructure, setDescriptionStructure] = useState('')
-    const [planningStructure, setPlanningStructure] = useState("desactivated")
-    const [venteBoissonsStructure, setVenteBoissonsStructure] = useState("desactivated")
-    const [venteBarresStructure, setVenteBarresStructure] = useState("desactivated")
-    const [emailingStructure, setEmailingStructure] = useState("desactivated")
+    const [planningStructure, setPlanningStructure] = useState(false)
+    const [venteBoissonsStructure, setVenteBoissonsStructure] = useState(false)
+    const [venteBarresStructure, setVenteBarresStructure] = useState(false)
+    const [emailingStructure, setEmailingStructure] = useState(false)
+
+    const [dialogSuccessShown, setDialogSuccessShown] = useState(false)
+    const [dialogErrorShown, setDialogErrorShown] = useState(false)
 
     const manageModal = () => {
         if (!modalOpen) {
@@ -37,7 +43,51 @@ const AjoutPartenaireStructure = (props) => {
     }
 
     const ajouter = async () => {
-        // api.addNew({ type: props.type, })
+
+        let body
+
+        if (props.type === 'partenaire') {
+            body = {
+                uid: localStorage.getItem('email'),
+                type: localStorage.getItem('utype'),
+                action: 'add_partenaire',
+                utilisateur: {
+                    nom: nom,
+                    prenom: prenom,
+                    email: email,
+                    type: "partenaire",
+                    adresse: numeroetvoie,
+                    code_postal: codePostal,
+                    ville: ville,
+                    description: description,
+                    planning: planning,
+                    boissons: venteBoissons,
+                    barres: venteBarres,
+                    emailing: emailing
+                }
+            }
+        } else if (props.type === "structure") {
+
+        }
+
+
+        const response = await back.performAction(body)
+
+        console.log(response)
+
+        if (response.data.success) {
+            setDialogSuccessShown(true)
+            setModalOpen(false)
+            setTimeout(() => {
+                setDialogSuccessShown(false)
+            }, 5000)
+        } else {
+            setModalOpen(false)
+            setDialogErrorShown(true)
+            setTimeout(() => {
+                setDialogErrorShown(false)
+            }, 5000)
+        }
     }
 
     return (
@@ -60,7 +110,8 @@ const AjoutPartenaireStructure = (props) => {
                                         <input onChange={(e) => { setPrenom(e.target.value) }} placeholder="Prénom" id="firstname-input"></input>
                                         <input onChange={(e) => { setEmail(e.target.value) }} placeholder="Email" id="email-input" type="email"></input>
                                         <input onChange={(e) => { setNumeroetvoie(e.target.value) }} placeholder="Numéro et voie" id="voie-input"></input>
-                                        <input onChange={(e) => { setCpville(e.target.value) }} placeholder="Code postal et Ville" id="ville-input"></input>
+                                        <input onChange={(e) => { setCodePostal(e.target.value) }} placeholder="Code postal" id="cp-input"></input>
+                                        <input onChange={(e) => { setVille(e.target.value) }} placeholder="Ville" id="ville-input"></input>
                                         <textarea onChange={(e) => { setDescription(e.target.value) }} placeholder="Description" id="description-input"></textarea>
                                         <div id="permissions-container">
                                             <Toggle
@@ -130,6 +181,15 @@ const AjoutPartenaireStructure = (props) => {
                         }
                     /> 
                     : null
+            }
+            {
+                dialogSuccessShown ?
+                <Dialog type="log" logLevel="success" message="Opération réussie !" />
+                :
+                dialogErrorShown ?
+                <Dialog type="log" logLevel="error" message="Erreur lors de l'opération" />
+                :
+                null
             }
         </> 
     )

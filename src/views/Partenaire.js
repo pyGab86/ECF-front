@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import SideMenu from '../composants/SideMenu'
 import AjoutPartenaireStructure from '../composants/AjoutPartenaireStructure'
 import PartenaireStructure from '../composants/PartenaireStructure'
 import Toggle from '../micro-composants/Toggle';
 import Searchbar from '../micro-composants/Searchbar';
 import Dialog from '../micro-composants/Dialog';
+import back from '../data/Back';
 
 /* 
     La page permettant de voir un partenaire. Les fonctionnalités sont :
@@ -36,9 +37,22 @@ const Partenaire = (props) => {
 
     const [confirmStatusDialogShown, setConfirmDialogShown] = useState(false)
 
-    // On comp mount: charger la data avec l'API et changer le state
+    // Vérifier que l'utilisateur est connecté
+    // Si non -> redirection vers page login
+    // Si oui mais que partenaire ou structure : redirection en arrière
+    const navigate = useNavigate()
     useEffect(() => {
-
+        console.log('useEffect partenaires')
+        if (localStorage.getItem('email') === null || typeof localStorage.getItem('email') === "undefined") {
+            navigate('/login')
+        }
+        if (localStorage.getItem('utype') != 'admin') {
+            if (localStorage.getItem('utype') === 'partenaire') {
+                navigate('/partenaire-notadmin')
+            } else {
+                navigate(`/structure-notadmin/:${localStorage.getItem('email')}`)
+            }
+        }
     }, [])
 
     const manageFilterButtons = (action) => {
@@ -76,8 +90,8 @@ const Partenaire = (props) => {
         }
     }
 
-    const dataAccess = (bool) => {
-        // Api utilisée
+    const dataAccess = () => {
+
     }
 
     return (

@@ -11,7 +11,7 @@ const SideMenu = (props) => {
         navigate('/login')
     }
 
-    const lienPartenaires = props.page === 'Partenaires' ? <a href="/"><strong>Partenaires</strong> </a> : <a href="/partenaires">Partenaires</a>
+    const lienPartenaires = props.page === 'Partenaires' ? <a href="/"><strong>Partenaires</strong> </a> : <a href="/">Partenaires</a>
     const lienStructures = props.page === 'Structures' ? <a href="/structures"><strong>Structures</strong> </a> : <a href="/structures">Structures</a>
 
     return (
@@ -23,7 +23,6 @@ const SideMenu = (props) => {
             <button className="naked-button" onClick={() => {logOut()}}>Déconnexion</button>
         </div>
     )
-
 }
 
 export default SideMenu
