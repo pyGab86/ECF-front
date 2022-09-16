@@ -34,6 +34,7 @@ class Back {
             return true
         } else {
             console.log('Refresh token could not be refreshed!')
+            window.location.replace('/login')
             return false
         }
 

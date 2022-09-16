@@ -158,6 +158,22 @@ html {
                 }
             }
 
+            .result-container {
+                text-decoration: none;
+                background: $light-blue;
+                border-radius: $small-radius;
+                padding: 10px;
+                margin: 15px;
+
+                a {
+                    text-decoration: none;
+
+                    p {
+                        color: $dark;
+                    }
+                }
+            }
+
             .minis-grid {
                 margin: 5vh 0;
 

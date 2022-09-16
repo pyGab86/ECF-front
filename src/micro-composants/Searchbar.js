@@ -1,5 +1,7 @@
 import { useState } from "react"
 import Modal from "../composants/Modal"
+import back from '../data/Back'
+import SearchResult from "./SearchResult"
 
 // IMPORTANT : côté back, on vérifie le type d'utilisateur à l'origine de la recherche
 // Si admin : on renvoit tous les résultats
@@ -49,6 +51,53 @@ const Searchbar = () => {
 
     const search = async (research) => {
 
+        if (localStorage.getItem('utype') === 'admin') {
+
+            back.getData('search', { name: research })
+                .then(res => {
+                    
+                    if (res.data.success) {
+
+                        if (res.data.data.partenaires.length > 0) {
+                            setPartenairesResults(
+                                res.data.data.partenaires.map(partenaire => {
+                                    return <SearchResult
+                                        key={Math.random()}
+                                        link={`/partenaire/${partenaire.email}/${partenaire.id}`}
+                                        nom={`${partenaire.nom} ${partenaire.prenom}`}
+                                        email={partenaire.email}
+                                    />
+                                })
+                            )
+                        } 
+
+                        if (res.data.data.structures.length > 0) {
+
+                            setStruscuresResults(
+                                res.data.data.structures.map(structure => {
+                                    return <SearchResult
+                                        key={Math.random()}
+                                        link={`/structure/${structure.email_gerant}/${structure.id}`}
+                                        nom={`${structure.nom_gerant} ${structure.prenom_gerant}`}
+                                        email={structure.email_gerant}
+                                    />
+                                })
+                            )
+                        }
+
+                    }
+
+                })
+                .catch(err => { console.log(err) })
+
+        } else if (localStorage.getItem('utype') === "partenaire") {
+
+            back.getData('search-structures', { name: research, email: localStorage.getItem('email')  })
+                .then(res => {
+                    console.log(res)
+                })
+                .catch(err => { console.log(err) })
+        }
     }
 
     return (

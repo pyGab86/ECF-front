@@ -122,6 +122,19 @@ html body .App .toggle-activated div {
 html body .App .toggle-desactivated div {
   background-color: #C5C3C3;
 }
+html body .App .result-container {
+  text-decoration: none;
+  background: #C2E7FF;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 15px;
+}
+html body .App .result-container a {
+  text-decoration: none;
+}
+html body .App .result-container a p {
+  color: #1E1E1E;
+}
 html body .App .minis-grid {
   margin: 5vh 0;
 }
