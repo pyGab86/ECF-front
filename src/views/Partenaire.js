@@ -38,6 +38,49 @@ const Partenaire = (props) => {
     const [permissionsShown, setPermissionsShown] = useState(false)
     const [structures, setStructures] = useState([])
 
+    const changeStatus = () => {
+
+        let body = {
+            action: 'change_statut',
+            options: {
+                of: 'partenaire', current: activated ? 'actif' : 'inactif',
+                id
+            }
+        }
+
+        back.performAction(body)
+        .then(res => {
+            if (res.data.success) {
+                window.location.reload()
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    const changePermission = (permission, current) => {
+
+        back.performAction({
+            action: 'change_permission',
+            options: {
+                permission,
+                current,
+                of: 'partenaire',
+                id
+            }
+        })
+        .then(res => {
+            console.log(res)
+            if (res.data.success) {
+                window.location.reload()
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
     console.log('user rights:', props.rights)
 
     // Vérifier que l'utilisateur est connecté
@@ -125,13 +168,6 @@ const Partenaire = (props) => {
         }
     }
 
-    const changeStatus = (activated) => {
-
-        if (!confirmStatusDialogShown) {
-            setConfirmDialogShown(true)
-        }
-    }
-
     const dataAccess = () => {
 
     }
@@ -147,7 +183,7 @@ const Partenaire = (props) => {
                         <p style={{ color: `${activated ? '#157C19' : '#AA280C'}`}}><strong>Statut : {activated ? 'Activé' : 'Désactivé'}</strong></p>
                         {
                             props.rights === 'full' ?
-                            <button onClick={() => { changeStatus(activated) }}>{`${activated === 'activated' ? 'Désactiver' : 'Activer'}`}</button>
+                            <button onClick={() => { setConfirmDialogShown(true) }}>{`${activated === 'activated' ? 'Désactiver' : 'Activer'}`}</button>
                             :
                             null
                         }
@@ -203,26 +239,26 @@ const Partenaire = (props) => {
                                     canEdit={true}
                                     label="Gestion planning Equipe"
                                     default={planning} 
-                                    onActivate={() => { setPlanning(true) }}
-                                    onDesactivate={() => { setPlanning(false) }} />
+                                    onActivate={() => { changePermission('gestion_planning_team', true) }}
+                                    onDesactivate={() => { changePermission('gestion_planning_team', false) }} />
                                 <Toggle
                                     canEdit={true}
                                     label="Vente de boissons"
                                     default={boissons}
-                                    onActivate={() => { setBoissons(true) }}
-                                    onDesactivate={() => { setBoissons(false) }} />
+                                    onActivate={() => { changePermission('vente_boissons', true) }}
+                                    onDesactivate={() => { changePermission('vente_boissons', false) }} />
                                 <Toggle
                                     canEdit={true}
                                     label="Vente barres énergétiques"
                                     default={barres}
-                                    onActivate={() => { setBarres(true) }}
-                                    onDesactivate={() => { setBarres(false) }} />
+                                    onActivate={() => { changePermission('vente_barres', true) }}
+                                    onDesactivate={() => { changePermission('vente_barres', false) }} />
                                 <Toggle
                                     canEdit={true}
                                     label="Emailing"
                                     default={emailing}
-                                    onActivate={() => { setEmailing(true) }}
-                                    onDesactivate={() => { setEmailing(false) }} />
+                                    onActivate={() => { changePermission('emailing', true) }}
+                                    onDesactivate={() => { changePermission('emailing', false) }} />
                             </>
                             :
                             <>
@@ -291,8 +327,8 @@ const Partenaire = (props) => {
                 <Dialog
                     type="confirm"
                     text={`Confirmez-vous vouloir changer le statut de ce partenaire ? Le nouveau statut sera réglé sur : ${activated ? 'Désactivé' : 'Actif'}`}
-                    onCancel={() => { console.log('status change canceled'); setConfirmDialogShown(false) }}
-                    onConfirm={() => { console.log('status change confirmed!'); setConfirmDialogShown(false) }}
+                    onCancel={() => { setConfirmDialogShown(false) }}
+                    onConfirm={() => { changeStatus(); setConfirmDialogShown(false) }}
                 />
                 :
                 null

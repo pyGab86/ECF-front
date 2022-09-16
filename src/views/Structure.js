@@ -2,30 +2,68 @@ import SideMenu from "../composants/SideMenu"
 import Searchbar from "../micro-composants/Searchbar"
 import Toggle from "../micro-composants/Toggle";
 import Dialog from "../micro-composants/Dialog";
+import back from "../data/Back";
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from "react-router-dom";
 
 const Structure = (props) => {
 
-    const [nom, setNom] = useState('Undefined')
-    const [prenom, setPrenom] = useState('Undefined')
-    const [email, setEmail] = useState(useParams().email)
-    const [rue, setRue] = useState('Undefined')
-    const [cpville, setCpville] = useState('Undefined')
-    const [description, setDescription] = useState('Laudantium aliquam cupiditate commodi beatae eveniet, repellendus accusantium soluta libero ad est tenetur asperiores deserunt architecto consectetur nesciunt quo perferendis accusamus nobis.')
+    const id = parseInt(useParams().id)
+    const [nom, setNom] = useState('')
+    const [prenom, setPrenom] = useState('')
+    const [email, setEmail] = useState('')
+    const [rue, setRue] = useState('')
+    const [cpville, setCpville] = useState('')
+    const [description, setDescription] = useState('')
     const [activated, setActivated] = useState(false)
-    const [planning, setPlanning] = useState('desactivated')
-    const [boissons, setBoissons] = useState('desactivated')
-    const [barres, setBarres] = useState('desactivated')
-    const [emailing, setEmailing] = useState('desactivated')
-
+    const [planning, setPlanning] = useState(false)
+    const [boissons, setBoissons] = useState(false)
+    const [barres, setBarres] = useState(false)
+    const [emailing, setEmailing] = useState(false)
     const [confirmStatusDialogShown, setConfirmDialogShown] = useState(false)
+    const [permissionsShown, setPermissionsShown] = useState(false)
 
-    const changeStatus = (activated) => {
+    const changeStatus = () => {
 
-        if (!confirmStatusDialogShown) {
-            setConfirmDialogShown(true)
+        let body = {
+            action: 'change_statut',
+            options: {
+                of: 'structure', current: activated ? 'actif' : 'inactif',
+                id
+            }
         }
+
+        back.performAction(body)
+        .then(res => {
+            if (res.data.success) {
+                window.location.reload()
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    const changePermission = (permission, current) => {
+
+        back.performAction({
+            action: 'change_permission',
+            options: {
+                permission,
+                current,
+                of: 'structure',
+                id
+            }
+        })
+        .then(res => {
+            console.log(res)
+            if (res.data.success) {
+                window.location.reload()
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 
     // Vérifier que l'utilisateur est connecté
@@ -34,14 +72,45 @@ const Structure = (props) => {
     const navigate = useNavigate() 
     useEffect(() => {
         if (localStorage.getItem('email') === null) {
-            //navigate('/login')
+            navigate('/login')
         }
         if (localStorage.getItem('utype') != 'admin') {
             if (localStorage.getItem('utype') === 'partenaire') {
-                //navigate('/partenaire-notadmin')
+                navigate('/partenaire-notadmin')
             } else {
-                //navigate(`/structure-notadmin/:${localStorage.getItem('email')}`)
+                navigate(`/structure-notadmin/:${localStorage.getItem('email')}`)
             }
+        } else {
+            back.getData('structure', { id })
+            .then(res => {
+                if (res.data.success) {
+                    setNom(res.data.data[0].nom_gerant)
+                    setPrenom(res.data.data[0].prenom_gerant)
+                    setEmail(res.data.data[0].email_gerant)
+                    setRue(res.data.data[0].adresse)
+                    setCpville(`${res.data.data[0].code_postal} ${res.data.data[0].ville}`)
+                    setDescription(res.data.data[0].description)
+                    setActivated(res.data.data[0].statut === 'actif' ? true : false)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+            back.getData('permissions', { of: 'structure', id })
+            .then(res => {
+                console.log(res.data.data[0])
+                if (res.data.success) {
+                    setPlanning(res.data.data[0].gestion_planning_team)
+                    setBoissons(res.data.data[0].vente_boissons)
+                    setBarres(res.data.data[0].vente_barres)
+                    setEmailing(res.data.data[0].emailing)
+                    setPermissionsShown(true)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
         }
     }, [])
 
@@ -56,7 +125,7 @@ const Structure = (props) => {
                         <p style={{ color: `${activated ? '#157C19' : '#AA280C'}`}}><strong>Statut : {activated ? 'Activée' : 'Désactivée'}</strong></p>
                         {
                             props.rights === "full" ?
-                            <button onClick={() => { changeStatus(activated) }}>{`${activated === 'activated' ? 'Désactiver' : 'Activer'}`}</button>
+                            <button onClick={() => { setConfirmDialogShown(true) }}>{`${activated === 'activated' ? 'Désactiver' : 'Activer'}`}</button>
                             :
                             null
                         }
@@ -74,58 +143,66 @@ const Structure = (props) => {
                         </div>
                     </div>
 
-                    <h3>Permissions de la structure</h3>
-                    <div id="permissions-container" className='flex gap30 align-start justify-start'>
-                        {
-                            props.rights === "full" ?
-                            <>
-                                <Toggle
-                                    canEdit={true}
-                                    label="Gestion planning Equipe"
-                                    default={planning}
-                                    onActivate={() => { setPlanning(true) }}
-                                    onDesactivate={() => { setPlanning(false) }} />
-                                <Toggle
-                                    canEdit={true}
-                                    label="Vente de boissons"
-                                    default={boissons}
-                                    onActivate={() => { setBoissons(true) }}
-                                    onDesactivate={() => { setBoissons(false) }} />
-                                <Toggle
-                                    canEdit={true}
-                                    label="Vente barres énergétiques"
-                                    default={barres}
-                                    onActivate={() => { setBarres(true) }}
-                                    onDesactivate={() => { setBarres(false) }} />
-                                <Toggle
-                                    canEdit={true}
-                                    label="Emailing"
-                                    default={emailing}
-                                    onActivate={() => { setEmailing(true) }}
-                                    onDesactivate={() => { setEmailing(false) }} />
-                            </>
-                            :
-                            <>
-                                <Toggle
-                                    canEdit={false}
-                                    label="Gestion planning Equipe"
-                                    default={planning}/>
-                                <Toggle
-                                    canEdit={false}
-                                    label="Vente de boissons"
-                                    default={boissons} />
-                                <Toggle
-                                    canEdit={false}
-                                    label="Vente barres énergétiques"
-                                    default={barres} />
-                                <Toggle
-                                    canEdit={false}
-                                    label="Emailing"
-                                    default={emailing} />
-                            </>
+                    {
+                        permissionsShown ?
+                        <>
+                            <h3>Permissions de la structure</h3>
+                            <div id="permissions-container" className='flex gap30 align-start justify-start'>
+                                {
+                                    props.rights === "full" ?
+                                    <>
 
-                        }
-                    </div>
+                                        <Toggle
+                                            canEdit={true}
+                                            label="Gestion planning Equipe"
+                                            default={planning} 
+                                            onActivate={() => { changePermission('gestion_planning_team', true) }}
+                                            onDesactivate={() => { changePermission('gestion_planning_team', false) }} />
+                                        <Toggle
+                                            canEdit={true}
+                                            label="Vente de boissons"
+                                            default={boissons}
+                                            onActivate={() => { changePermission('vente_boissons', true) }}
+                                            onDesactivate={() => { changePermission('vente_boissons', false) }} />
+                                        <Toggle
+                                            canEdit={true}
+                                            label="Vente barres énergétiques"
+                                            default={barres}
+                                            onActivate={() => { changePermission('vente_barres', true) }}
+                                            onDesactivate={() => { changePermission('vente_barres', false) }} />
+                                        <Toggle
+                                            canEdit={true}
+                                            label="Emailing"
+                                            default={emailing}
+                                            onActivate={() => { changePermission('emailing', true) }}
+                                            onDesactivate={() => { changePermission('emailing', false) }} />
+                                    </>
+                                    :
+                                    <>
+                                        <Toggle
+                                            canEdit={false}
+                                            label="Gestion planning Equipe"
+                                            default={planning}/>
+                                        <Toggle
+                                            canEdit={false}
+                                            label="Vente de boissons"
+                                            default={boissons} />
+                                        <Toggle
+                                            canEdit={false}
+                                            label="Vente barres énergétiques"
+                                            default={barres} />
+                                        <Toggle
+                                            canEdit={false}
+                                            label="Emailing"
+                                            default={emailing} />
+                                    </>
+
+                                }
+                            </div>
+                        </>
+                        :
+                        null
+                    }
                 </div>
             </div>
             {
@@ -133,8 +210,8 @@ const Structure = (props) => {
                 <Dialog
                     type="confirm"
                     text={`Confirmez-vous vouloir changer le statut de cette structure ? Le nouveau statut sera réglé sur : ${activated ? 'Désactivée' : 'Active'}`}
-                    onCancel={() => { console.log('status change canceled'); setConfirmDialogShown(false) }}
-                    onConfirm={() => { console.log('status change confirmed!'); setConfirmDialogShown(false) }}
+                    onCancel={() => { setConfirmDialogShown(false) }}
+                    onConfirm={() => { changeStatus(); setConfirmDialogShown(false) }}
                 />
                 :
                 null
