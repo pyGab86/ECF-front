@@ -19,11 +19,12 @@ const Login = () => {
         // En fonction de la réponse de l'API suite au login,
         // Vérifier si l'utilisateur a besoin de changer son mdp
         // Et vers quel écran on le redirige
+        console.log(response)
         if (response.data.success) {
             localStorage.setItem('email', email)
             localStorage.setItem('password', password)
             localStorage.setItem('token', response.data.token)
-            localStorage.setItem('refresh', response.data.refreshToken)
+            localStorage.setItem('refresh', response.data.refresh)
             localStorage.setItem('utype', response.data.type)
 
             if (!response.data.needsNewPassword) {

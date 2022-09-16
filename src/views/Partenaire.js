@@ -18,40 +18,82 @@ import back from '../data/Back';
 */
 const Partenaire = (props) => {
 
-    const [nom, setNom] = useState('Undefined')
-    const [prenom, setPrenom] = useState('Undefined')
-    const [email, setEmail] = useState(useParams().email)
-    const [rue, setRue] = useState('Undefined')
-    const [cpville, setCpville] = useState('Undefined')
-    const [description, setDescription] = useState('Laudantium aliquam cupiditate commodi beatae eveniet, repellendus accusantium soluta libero ad est tenetur asperiores deserunt architecto consectetur nesciunt quo perferendis accusamus nobis.')
+    const [nom, setNom] = useState('')
+    const [prenom, setPrenom] = useState('')
+    const [email, setEmail] = useState('')
+    const id = parseInt(useParams().id)
+    const [rue, setRue] = useState('')
+    const [cpville, setCpville] = useState('')
+    const [description, setDescription] = useState('')
     const [activated, setActivated] = useState(false)
-    const [planning, setPlanning] = useState('desactivated')
-    const [boissons, setBoissons] = useState('desactivated')
-    const [barres, setBarres] = useState('desactivated')
-    const [emailing, setEmailing] = useState('desactivated')
+    const [planning, setPlanning] = useState(false)
+    const [boissons, setBoissons] = useState(false)
+    const [barres, setBarres] = useState(false)
+    const [emailing, setEmailing] = useState(false)
     const [statutAccesDonnees, setStatutAccesDonnees] = useState('non confirmé')
-
     const [filterType, setFilterType] = useState('both')
     const [activatedBtnSelected, setActivatedBtnSelected] = useState(false)
     const [desactivatedBtnSelected, setDesactivatedBtnSelected] = useState(false)
-
     const [confirmStatusDialogShown, setConfirmDialogShown] = useState(false)
+    const [permissionsShown, setPermissionsShown] = useState(false)
+    const [structures, setStructures] = useState([])
+
+    console.log('user rights:', props.rights)
 
     // Vérifier que l'utilisateur est connecté
     // Si non -> redirection vers page login
     // Si oui mais que partenaire ou structure : redirection en arrière
     const navigate = useNavigate()
     useEffect(() => {
-        console.log('useEffect partenaires')
+        
         if (localStorage.getItem('email') === null || typeof localStorage.getItem('email') === "undefined") {
             navigate('/login')
         }
+
         if (localStorage.getItem('utype') != 'admin') {
             if (localStorage.getItem('utype') === 'partenaire') {
                 navigate('/partenaire-notadmin')
             } else {
                 navigate(`/structure-notadmin/:${localStorage.getItem('email')}`)
             }
+        } else {
+            // Récupérer les infos du partenaire
+            back.getData('partenaire', { id })
+                .then(res => { 
+                    if (res.data.success) {
+                        setNom(res.data.data[0].nom)
+                        setPrenom(res.data.data[0].prenom)
+                        setEmail(res.data.data[0].email)
+                        setRue(res.data.data[0].adresse)
+                        setCpville(`${res.data.data[0].code_postal} ${res.data.data[0].ville}`)
+                        setStatutAccesDonnees(res.data.data[0].statut_acces_donnees)
+                        setDescription(res.data.data[0].description)
+                        setActivated(res.data.data[0].statut === 'actif' ? true : false)
+                    }
+                })
+                .catch(err => { console.log(err) })
+
+            // Récupérer les permissions du partenaire
+            back.getData('permissions', { of: 'partenaire', id })
+                .then(res => {
+                    if (res.data.success) {
+                        setEmailing(res.data.data[0].emailing)
+                        setPlanning(res.data.data[0].gestion_planning_team)
+                        setBarres(res.data.data[0].vente_barres)
+                        setBoissons(res.data.data[0].vente_boissons)
+                        setPermissionsShown(true)
+                    }
+                })
+                .catch(err => { console.log(err) })
+
+            // Récupérer les structures du partenaire
+            back.getData('structures', { from: 'partenaire', id })
+                .then(res => {
+                    if (res.data.success) {
+                        setStructures(res.data.data)
+                    }
+                })
+                .catch(err => { console.log(err) })
         }
     }, [])
 
@@ -142,19 +184,25 @@ const Partenaire = (props) => {
                     </div>
 
                     {
-                        props.rights === 'full' ? 
-                        <h3>Permissions globales du partenaire</h3>
+                        permissionsShown ?
+                            props.rights === 'full' ? 
+                            <h3>Permissions globales du partenaire</h3>
+                            :
+                            <h3>Mes permissions globales</h3>
                         :
-                        <h3>Mes permissions globales</h3>
+                        null
                     }
-                    <div id="permissions-container" className='flex gap30 align-start justify-start'>
+                    
+                    {
+                        permissionsShown ? 
+                        <div id="permissions-container" className='flex gap30 align-start justify-start'>
                         {
                             props.rights === 'full' ?
                             <>
                                 <Toggle
                                     canEdit={true}
                                     label="Gestion planning Equipe"
-                                    default={planning}
+                                    default={planning} 
                                     onActivate={() => { setPlanning(true) }}
                                     onDesactivate={() => { setPlanning(false) }} />
                                 <Toggle
@@ -197,7 +245,10 @@ const Partenaire = (props) => {
                             </>
                             
                         }
-                    </div>
+                        </div>
+                        :
+                        null
+                    }
 
                     {
                         props.rights === 'full' ?
@@ -212,15 +263,26 @@ const Partenaire = (props) => {
                     <div className='minis-grid flex gap10'>
                         {
                             props.rights === 'full' ?
-                            <AjoutPartenaireStructure type="structure"/>
+                            <AjoutPartenaireStructure type="structure" idPartenaire={id} emailPartenaire={email}/>
                             :
                             null
+                        }{
+                            structures.map(structure => {
+                                return <PartenaireStructure
+                                    key={Math.random()} 
+                                    id={structure.id}
+                                    filter={filterType}
+                                    rights={props.rights}
+                                    type="structure"
+                                    prenom={structure.prenom_gerant}
+                                    nom={structure.nom_gerant}
+                                    rue={structure.adresse}
+                                    cpville={`${structure.code_postal} ${structure.ville}`}
+                                    email={structure.email_gerant}
+                                    status={structure.statut}
+                                />
+                            })
                         }
-                        <PartenaireStructure filter={filterType} rights={props.rights} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Inactif"/>
-                        <PartenaireStructure filter={filterType} rights={props.rights} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Inactif"/>
-                        <PartenaireStructure filter={filterType} rights={props.rights} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
-                        <PartenaireStructure filter={filterType} rights={props.rights} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
-                        <PartenaireStructure filter={filterType} rights={props.rights} type="structure" prenom="Didier" nom="Durand" rue="23 rue de la Libération" cpville="75000 Paris" email="didier@gmail.com" status="Actif"/>
                     </div>
                 </div>
             </div>

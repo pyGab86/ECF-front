@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Dialog from "./Dialog"
 
 /*
@@ -14,11 +14,11 @@ const Toggle = (props) => {
 
     const toggleManager = () => {
         if (props.canEdit) {
-            if (toggleState === 'activated') {
-                setToggleState('desactivated')
+            if (toggleState) {
+                setToggleState(false)
                 props.onDesactivate()
-            } else if (toggleState === 'desactivated') {
-                setToggleState('activated')
+            } else {
+                setToggleState(true)
                 props.onActivate()
             }
         } else if (!dialogShown) {
@@ -33,7 +33,7 @@ const Toggle = (props) => {
         <>
             <div>
                 <label>{props.label}</label>
-                <div className={`toggle-container toggle-${toggleState} flex align-center ${toggleState === 'activated' ? "justify-end" : null}`}  onClick={() => toggleManager()}>
+                <div className={`toggle-container toggle-${toggleState ? 'activated' : 'desactivated'} flex align-center ${toggleState ? "justify-end" : null}`}  onClick={() => toggleManager()}>
                     <div></div>
                 </div>
             </div>

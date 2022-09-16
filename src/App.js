@@ -23,11 +23,11 @@ function App() {
         <Routes>
           <Route path='/' element={ <Home rights="full"/> } />
           <Route path="/login" element={ <Login/> } />
-          <Route path='/partenaire/:email' element={ <Partenaire rights="full"/> } /> 
-          <Route path='/structure/:email' element={ <Structure rights="full"/> } />
+          <Route path='/partenaire/:email/:id' element={ <Partenaire rights="full"/> } /> 
+          <Route path='/structure/:email/:id' element={ <Structure rights="full"/> } />
           <Route path='/structures' element={ <Structures/>} />
           <Route path='/partenaire-notadmin' element={ <Partenaire rights="read"/> } />
-          <Route path='/structure-notadmin/:email' element={ <Structure rights="read"/> } />
+          <Route path='/structure-notadmin/:email/:id' element={ <Structure rights="read"/> } />
         </Routes>
       </Router>
     </div>

@@ -6,6 +6,8 @@ import Dialog from "../micro-composants/Dialog"
 
 const AjoutPartenaireStructure = (props) => {
 
+    console.log(props)
+
     const [modalOpen, setModalOpen] = useState(false)
 
     // State de la modale d'ajout (partenaire ou structure)
@@ -26,7 +28,8 @@ const AjoutPartenaireStructure = (props) => {
     const [prenomStructure, setPrenomStructure] = useState('')
     const [emailStructure, setEmailStructure] = useState('')
     const [numeroetvoieStructure, setNumeroetvoieStructure] = useState('')
-    const [cpvilleStructure, setCpvilleStructure] = useState('')
+    const [cpStructure, setCpStructure] = useState('')
+    const [villeStructure, setVilleStructure] = useState('')
     const [descriptionStructure, setDescriptionStructure] = useState('')
     const [planningStructure, setPlanningStructure] = useState(false)
     const [venteBoissonsStructure, setVenteBoissonsStructure] = useState(false)
@@ -67,10 +70,28 @@ const AjoutPartenaireStructure = (props) => {
                 }
             }
         } else if (props.type === "structure") {
-
+            body = {
+                uid: localStorage.getItem('email'),
+                type: localStorage.getItem('utype'),
+                action: 'add_structure',
+                structure: {
+                    id_partenaire: props.idPartenaire,
+                    nom_gerant: nomStructure,
+                    prenom_gerant: prenomStructure,
+                    email_partenaire: props.emailPartenaire,
+                    email_gerant: emailStructure,
+                    adresse: numeroetvoieStructure,
+                    code_postal: cpStructure,ville: villeStructure,
+                    description: descriptionStructure,
+                    planning: planningStructure,
+                    boissons: venteBoissonsStructure,
+                    barres: venteBarresStructure,
+                    emailing: emailingStructure
+                }
+            }
         }
 
-
+        console.log(body)
         const response = await back.performAction(body)
 
         console.log(response)
@@ -80,7 +101,8 @@ const AjoutPartenaireStructure = (props) => {
             setModalOpen(false)
             setTimeout(() => {
                 setDialogSuccessShown(false)
-            }, 5000)
+                window.location.reload()
+            }, 2000)
         } else {
             setModalOpen(false)
             setDialogErrorShown(true)
@@ -117,25 +139,25 @@ const AjoutPartenaireStructure = (props) => {
                                             <Toggle
                                                 canEdit={true}
                                                 label="Gestion planning Equipe"
-                                                default="desactivated"
+                                                default={false}
                                                 onActivate={() => { setPlanning(true) }}
                                                 onDesactivate={() => { setPlanning(false) }} />
                                             <Toggle 
                                                 canEdit={true}
                                                 label="Vente de boissons"
-                                                default="desactivated"
+                                                default={false}
                                                 onActivate={() => { setVenteBoissons(true) }}
                                                 onDesactivate={() => { setVenteBoissons(false) }} />
                                             <Toggle
                                                 canEdit={true}
                                                 label="Vente barres énergétiques"
-                                                default="desactivated"
+                                                default={false}
                                                 onActivate={() => { setVenteBarres(true) }}
                                                 onDesactivate={() => { setVenteBarres(false) }} />
                                             <Toggle
                                                 canEdit={true}
                                                 label="Emailing"
-                                                default="desactivated"
+                                                default={false}
                                                 onActivate={() => { setEmailing(true) }}
                                                 onDesactivate={() => { setEmailing(false) }} />
                                         </div>
@@ -146,31 +168,32 @@ const AjoutPartenaireStructure = (props) => {
                                         <input onChange={(e) => { setPrenomStructure(e.target.value) }} placeholder="Prénom gérant" id="firstname-input-structure"></input>
                                         <input onChange={(e) => { setEmailStructure(e.target.value) }} placeholder="Email gérant" id="email-input-structure" type="email"></input>
                                         <input onChange={(e) => { setNumeroetvoieStructure(e.target.value) }} placeholder="Numéro et voie" id="voie-input-structure"></input>
-                                        <input onChange={(e) => { setCpvilleStructure(e.target.value) }} placeholder="Code postal et Ville" id="ville-input-structure"></input>
+                                        <input onChange={(e) => { setCpStructure(e.target.value) }} placeholder="Code postal" id="cp-input-structure"></input>
+                                        <input onChange={(e) => { setVilleStructure(e.target.value) }} placeholder="Ville" id="ville-input-structure"></input>
                                         <textarea onChange={(e) => { setDescriptionStructure(e.target.value) }} placeholder="Description" id="description-input-structure"></textarea>
                                         <div id="permissions-container">
                                             <Toggle
                                                 canEdit={true}
                                                 label="Gestion planning Equipe"
-                                                default="desactivated"
+                                                default={false}
                                                 onActivate={() => { setPlanningStructure(true) }}
                                                 onDesactivate={() => { setPlanningStructure(false) }} />
                                             <Toggle
                                                 canEdit={true}
                                                 label="Vente de boissons"
-                                                default="desactivated"
+                                                default={false}
                                                 onActivate={() => { setVenteBoissonsStructure(true) }}
                                                 onDesactivate={() => { setVenteBoissonsStructure(false) }} />
                                             <Toggle
                                                 canEdit={true}
                                                 label="Vente barres énergétiques"
-                                                default="desactivated"
+                                                default={false}
                                                 onActivate={() => { setVenteBarresStructure(true) }}
                                                 onDesactivate={() => { setVenteBarresStructure(false) }} />
                                             <Toggle
                                                 canEdit={true} 
                                                 label="Emailing"
-                                                default="desactivated"
+                                                default={false}
                                                 onActivate={() => { setEmailingStructure(true) }}
                                                 onDesactivate={() => { setEmailingStructure(false) }} />
                                         </div>

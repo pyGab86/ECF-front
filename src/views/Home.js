@@ -19,7 +19,7 @@ const Home = (props) => {
     // Si oui mais que partenaire ou structure : redirection en arrière
     const navigate = useNavigate() 
     useEffect(() => {
-        console.log(localStorage.getItem('utype'))
+        //console.log(localStorage.getItem('utype'))
         if (localStorage.getItem('email') === null) {
             navigate('/login')
         }
@@ -32,7 +32,11 @@ const Home = (props) => {
         } else {
             // Récupération des partenaires
             back.getData('partenaires')
-                .then(res => { setPartenaires(res.data.data) })
+                .then(res => { 
+                    if (typeof res.data.data === 'object') {
+                        setPartenaires(res.data.data)
+                    }
+                })
                 .catch(err => { console.log(err) })
         }
     }, [])
@@ -82,6 +86,8 @@ const Home = (props) => {
                         {
                             partenaires.map(partenaire => {
                                 return <PartenaireStructure
+                                    id={parseInt(partenaire.id)}
+                                    key={Math.random()}
                                     filter={filterType}
                                     rights={props.rights}
                                     type="partenaire"
