@@ -84,9 +84,7 @@ const Searchbar = () => {
                                 })
                             )
                         }
-
                     }
-
                 })
                 .catch(err => { console.log(err) })
 
@@ -95,6 +93,21 @@ const Searchbar = () => {
             back.getData('search-structures', { name: research, email: localStorage.getItem('email')  })
                 .then(res => {
                     console.log(res)
+                    if (res.data.success) {
+                        if (res.data.data.structures.length > 0) {
+
+                            setStruscuresResults(
+                                res.data.data.structures.map(structure => {
+                                    return <SearchResult
+                                        key={Math.random()}
+                                        link={`/structure-notadmin/${structure.email_gerant}/${structure.id}`}
+                                        nom={`${structure.nom_gerant} ${structure.prenom_gerant}`}
+                                        email={structure.email_gerant}
+                                    />
+                                })
+                            )
+                        }
+                    }
                 })
                 .catch(err => { console.log(err) })
         }

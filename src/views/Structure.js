@@ -28,8 +28,12 @@ const Structure = (props) => {
         let body = {
             action: 'change_statut',
             options: {
-                of: 'structure', current: activated ? 'actif' : 'inactif',
-                id
+                of: 'structure', 
+                current: activated ? 'actif' : 'inactif',
+                id,
+                email,
+                nom,
+                prenom
             }
         }
 
@@ -52,7 +56,10 @@ const Structure = (props) => {
                 permission,
                 current,
                 of: 'structure',
-                id
+                id,
+                email,
+                nom,
+                prenom
             }
         })
         .then(res => {
@@ -125,18 +132,18 @@ const Structure = (props) => {
                         <p style={{ color: `${activated ? '#157C19' : '#AA280C'}`}}><strong>Statut : {activated ? 'Activée' : 'Désactivée'}</strong></p>
                         {
                             props.rights === "full" ?
-                            <button onClick={() => { setConfirmDialogShown(true) }}>{`${activated === 'activated' ? 'Désactiver' : 'Activer'}`}</button>
+                            <button onClick={() => { setConfirmDialogShown(true) }}>Changer</button>
                             :
                             null
                         }
                     </div>
                     <div id="infos-partenaire-structure" className='flex align-start justify-between gap30'>
                         <div id='basic-info'>
-                            <p><strong>Nom gérant:</strong> {nom}</p>
-                            <p><strong>Prénom gérant:</strong> {prenom}</p>
-                            <p><strong>Email gérant:</strong> {email}</p>
+                            <p><strong>Nom gérant :</strong> {nom}</p>
+                            <p><strong>Prénom gérant :</strong> {prenom}</p>
+                            <p><strong>Email gérant :</strong> {email}</p>
                             <p><strong>Rue :</strong> {rue}</p>
-                            <p><strong>CP & ville :</strong> {cpville}</p>
+                            <p><strong>CP & ville :</strong>{cpville}</p>
                         </div>
                         <div id="description">
                             <p>{description}</p>

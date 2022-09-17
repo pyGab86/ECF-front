@@ -43,8 +43,12 @@ const Partenaire = (props) => {
         let body = {
             action: 'change_statut',
             options: {
-                of: 'partenaire', current: activated ? 'actif' : 'inactif',
-                id
+                of: 'partenaire',
+                current: activated ? 'actif' : 'inactif',
+                id,
+                email,
+                nom,
+                prenom
             }
         }
 
@@ -67,7 +71,10 @@ const Partenaire = (props) => {
                 permission,
                 current,
                 of: 'partenaire',
-                id
+                id,
+                nom,
+                prenom,
+                email
             }
         })
         .then(res => {
@@ -183,14 +190,15 @@ const Partenaire = (props) => {
                         <p style={{ color: `${activated ? '#157C19' : '#AA280C'}`}}><strong>Statut : {activated ? 'Activé' : 'Désactivé'}</strong></p>
                         {
                             props.rights === 'full' ?
-                            <button onClick={() => { setConfirmDialogShown(true) }}>{`${activated === 'activated' ? 'Désactiver' : 'Activer'}`}</button>
+                            <button onClick={() => { setConfirmDialogShown(true) }}>Changer</button>
                             :
                             null
                         }
                     </div>
                     {
                         props.rights === 'full' ?
-                        null:
+                        null
+                        :
                         <div>
                             <h4>Confirmer l'accès aux données</h4>
                             <p>Si vos informations, vos permissions globales et vos structures sont bien affichées ci-dessous, veuillez cliquer sur "Confirmer". Autrement, veuillez cliquer sur "Invalider"</p>
