@@ -7,8 +7,6 @@ import { useState } from "react";
 // qui sont des fonctions éxécutées au cancel et au confirm
 const Dialog = (props) => {
 
-    console.log(props)
-
     if (props.type === 'confirm') {
         return (
             <div id="dialog" className="confirm-dialog flex column justify-evenly align-center">

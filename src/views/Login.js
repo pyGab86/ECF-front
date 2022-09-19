@@ -27,6 +27,10 @@ const Login = () => {
             localStorage.setItem('refresh', response.data.refresh)
             localStorage.setItem('utype', response.data.type)
 
+            if (response.data.type != 'admin') {
+                localStorage.setItem('id', response.data.id)
+            }
+
             if (!response.data.needsNewPassword) {
 
                 switch (response.data.type) {

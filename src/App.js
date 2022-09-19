@@ -27,7 +27,7 @@ function App() {
           <Route path='/structure/:email/:id' element={ <Structure rights="full"/> } />
           <Route path='/structures' element={ <Structures/>} />
           <Route path='/partenaire-notadmin' element={ <Partenaire rights="read"/> } />
-          <Route path='/structure-notadmin/:email/:id' element={ <Structure rights="read"/> } />
+          <Route path='/structure-notadmin' element={ <Structure rights="read"/> } />
         </Routes>
       </Router>
     </div>

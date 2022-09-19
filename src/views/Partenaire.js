@@ -101,10 +101,55 @@ const Partenaire = (props) => {
         }
 
         if (localStorage.getItem('utype') != 'admin') {
-            if (localStorage.getItem('utype') === 'partenaire') {
-                navigate('/partenaire-notadmin')
-            } else {
-                navigate(`/structure-notadmin/:${localStorage.getItem('email')}`)
+
+            if (localStorage.getItem('utype') === 'partenaire' && window.location.pathname === '/partenaire') {
+                navigate(`/partenaire-notadmin`)
+
+            } else if (localStorage.getItem('utype') === 'partenaire') {
+                // Charger les données
+                // Infos partenaire
+                back.getData('self-partenaire', { email: localStorage.getItem('email') })
+                    .then(res => {
+                        if (res.data.success) {
+                            setNom(res.data.data[0].nom)
+                            setPrenom(res.data.data[0].prenom)
+                            setEmail(res.data.data[0].email)
+                            setRue(res.data.data[0].adresse)
+                            setCpville(`${res.data.data[0].code_postal} ${res.data.data[0].ville}`)
+                            setStatutAccesDonnees(res.data.data[0].statut_acces_donnees)
+                            setDescription(res.data.data[0].description)
+                            setActivated(res.data.data[0].statut === 'actif' ? true : false)
+                        }
+                    })
+                    .catch(err => console.log(err))
+
+                // Permisisons
+                back.getData('self-permissions', { id: parseInt(localStorage.getItem('id')), of: 'partenaire' })
+                .then(res => {
+                    console.log(res)
+                    if (res.data.success) {
+                        setEmailing(res.data.data[0].emailing)
+                        setPlanning(res.data.data[0].gestion_planning_team)
+                        setBarres(res.data.data[0].vente_barres)
+                        setBoissons(res.data.data[0].vente_boissons)
+                        setPermissionsShown(true)
+                    }
+                })
+                .catch(err => console.log(err))
+
+                // Structures
+                back.getData('self-structures', { email: localStorage.getItem('email') })
+                .then(res => {
+                    if (res.data.success) {
+                        setStructures(res.data.data)
+                    }
+                })
+                .catch(err => console.log(err))
+
+
+            // Une structure ne peut pas voir une page partenaire
+            } else if (localStorage.getItem('utype') === 'structure') {
+                navigate(`/structure-notadmin`)
             }
         } else {
             // Récupérer les infos du partenaire

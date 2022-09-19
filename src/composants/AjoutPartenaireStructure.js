@@ -6,8 +6,6 @@ import Dialog from "../micro-composants/Dialog"
 
 const AjoutPartenaireStructure = (props) => {
 
-    console.log(props)
-
     const [modalOpen, setModalOpen] = useState(false)
 
     // State de la modale d'ajout (partenaire ou structure)
