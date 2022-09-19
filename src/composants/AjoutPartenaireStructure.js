@@ -90,6 +90,7 @@ const AjoutPartenaireStructure = (props) => {
         }
 
         const response = await back.performAction(body)
+        console.log(response)
 
         if (response.data.success) {
             setDialogSuccessShown(true)

@@ -12,7 +12,7 @@ const SideMenu = (props) => {
     }
 
     const lienPartenaires = props.page === 'Partenaires' ? <a href="/"><strong>Partenaires</strong> </a> : <a href="/">Partenaires</a>
-    const lienStructures = props.page === 'Structures' ? <a href="/structures"><strong>Structures</strong> </a> : <a href="/structures">Structures</a>
+    const lienStructures = props.page === 'Structures' ? <a><strong>Structures</strong> </a> : <a>Structures</a>
 
     return (
         <div id="side-menu" className="flex column justify-between">

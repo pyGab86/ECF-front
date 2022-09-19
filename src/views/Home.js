@@ -27,7 +27,7 @@ const Home = (props) => {
             if (localStorage.getItem('utype') === 'partenaire') {
                 navigate('/partenaire-notadmin')
             } else {
-                navigate(`/structure-notadmin/:${localStorage.getItem('email')}`)
+                navigate(`/structure-notadmin/${localStorage.getItem('email')}/${localStorage.getItem('id')}`)
             }
         } else {
             // Récupération des partenaires

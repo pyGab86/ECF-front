@@ -41,7 +41,7 @@ const Login = () => {
                         navigate('/partenaire-notadmin')
                         break
                     case 'structure':
-                        navigate('/structure-notadmin')
+                        navigate(`/structure-notadmin/${email}/${response.data.id}`)
                         break
                     default:
                         break

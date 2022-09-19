@@ -69,7 +69,9 @@ const Searchbar = () => {
                                     />
                                 })
                             )
-                        } 
+                        } else {
+                            setPartenairesResults([])
+                        }
 
                         if (res.data.data.structures.length > 0) {
 
@@ -83,6 +85,8 @@ const Searchbar = () => {
                                     />
                                 })
                             )
+                        } else {
+                            setStruscuresResults([])
                         }
                     }
                 })
@@ -90,7 +94,7 @@ const Searchbar = () => {
 
         } else if (localStorage.getItem('utype') === "partenaire") {
 
-            back.getData('search-structures', { name: research, email: localStorage.getItem('email')  })
+            back.getData('search-structures', { name: research, email: localStorage.getItem('email') })
                 .then(res => {
                     console.log(res)
                     if (res.data.success) {
@@ -106,6 +110,8 @@ const Searchbar = () => {
                                     />
                                 })
                             )
+                        } else {
+                            setStruscuresResults([])
                         }
                     }
                 })

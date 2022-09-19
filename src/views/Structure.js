@@ -80,13 +80,8 @@ const Structure = (props) => {
     useEffect(() => {
         if (localStorage.getItem('email') === null) {
             navigate('/login')
-        }
-        if (localStorage.getItem('utype') != 'admin') {
-            if (localStorage.getItem('utype') === 'partenaire') {
-                navigate('/partenaire-notadmin')
-            } else {
-                navigate(`/structure-notadmin/:${localStorage.getItem('email')}`)
-            }
+        } else if (typeof id === "undefined" || id === null) {
+            navigate(`/structure-notadmin/${localStorage.getItem('email')}/${localStorage.getItem('id')}`)
         } else {
             back.getData('structure', { id })
             .then(res => {
@@ -106,7 +101,6 @@ const Structure = (props) => {
 
             back.getData('permissions', { of: 'structure', id })
             .then(res => {
-                console.log(res.data.data[0])
                 if (res.data.success) {
                     setPlanning(res.data.data[0].gestion_planning_team)
                     setBoissons(res.data.data[0].vente_boissons)

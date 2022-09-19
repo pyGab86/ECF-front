@@ -6,7 +6,7 @@ const PartenaireStructure = (props) => {
     let link = props.rights === 'full' ? 
         `/${props.type}/${props.email}/${props.id}`
         :
-        `/${props.type}-notadmin/${props.email}`
+        `/${props.type}-notadmin/${props.email}/${props.id}`
 
     return (
         props.filter === 'both' ?

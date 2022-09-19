@@ -29,10 +29,10 @@ const MdpChange = (props) => {
                         navigate('/')
                         break
                     case 'partenaire':
-                        navigate('/partenaire') // Redirection auto vers ...-notadmin
+                        navigate('partenaire-notadmin')
                         break
                     case 'structure':
-                        navigate('/structure') // Redirection auto vers ...-notadmin
+                        navigate(`/structure-notadmin/${localStorage.getItem('email')}/${localStorage.getItem('id')}`)
                         break
                     default:
                         break

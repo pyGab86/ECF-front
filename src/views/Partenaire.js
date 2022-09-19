@@ -37,6 +37,8 @@ const Partenaire = (props) => {
     const [confirmStatusDialogShown, setConfirmDialogShown] = useState(false)
     const [permissionsShown, setPermissionsShown] = useState(false)
     const [structures, setStructures] = useState([])
+    const [confirmStatusChangeDialogShown, setConfirmStatusChangeDialogShown] = useState(false)
+    const [errorStatusChangeDialogShown, setErrorStatusChangeDialogShown] = useState(false)
 
     const changeStatus = () => {
 
@@ -102,7 +104,7 @@ const Partenaire = (props) => {
 
         if (localStorage.getItem('utype') != 'admin') {
 
-            if (localStorage.getItem('utype') === 'partenaire' && window.location.pathname === '/partenaire') {
+            if (localStorage.getItem('utype') === 'partenaire' && !window.location.pathname.includes('notadmin')) {
                 navigate(`/partenaire-notadmin`)
 
             } else if (localStorage.getItem('utype') === 'partenaire') {
@@ -140,6 +142,7 @@ const Partenaire = (props) => {
                 // Structures
                 back.getData('self-structures', { email: localStorage.getItem('email') })
                 .then(res => {
+                    console.log(res)
                     if (res.data.success) {
                         setStructures(res.data.data)
                     }
@@ -220,7 +223,35 @@ const Partenaire = (props) => {
         }
     }
 
-    const dataAccess = () => {
+    const dataAccess = (statut) => {
+
+        back.performAction({
+            action: 'data-access-status',
+            options: {
+                statut,
+                id: parseInt(localStorage.getItem('id'))
+            }
+        })
+        .then(res => {
+            console.log(res)
+            if (res.data.success) {
+                setConfirmStatusChangeDialogShown(true)
+                setTimeout(() => {
+                    setConfirmStatusChangeDialogShown(false)
+                }, 5000)
+            } else {
+                setErrorStatusChangeDialogShown(true)
+                setTimeout(() => {
+                    setErrorStatusChangeDialogShown(false)
+                }, 5000)
+            }
+        })
+        .catch(err => {
+            setErrorStatusChangeDialogShown(true)
+            setTimeout(() => {
+                setErrorStatusChangeDialogShown(false)
+            }, 5000)
+        })
 
     }
 
@@ -246,10 +277,10 @@ const Partenaire = (props) => {
                         :
                         <div>
                             <h4>Confirmer l'accès aux données</h4>
-                            <p>Si vos informations, vos permissions globales et vos structures sont bien affichées ci-dessous, veuillez cliquer sur "Confirmer". Autrement, veuillez cliquer sur "Invalider"</p>
+                            <p>Si vos informations, vos permissions globales et vos structures sont bien affichées ci-dessous, veuillez cliquer sur "Confirmer". Autrement, veuillez cliquer sur "Invalider". <strong>Veuillez noter que ces boutons seront toujours disponibles afin que vous puissiez changer le statut d'accès à vos données dès que celui-ci change.</strong></p>
                             <div className='flex align-center gap30'>
-                                <button onClick={() => { dataAccess(false) }} id="infirmer-btn">Infirmer</button>
-                                <button onClick={() => { dataAccess(true) }} id="confirmer-btn">Confirmer</button>
+                                <button onClick={() => { dataAccess('infirmé') }} id="infirmer-btn">Infirmer</button>
+                                <button onClick={() => { dataAccess('confirmé') }} id="confirmer-btn">Confirmer</button>
                             </div>
                         </div>
                     }
@@ -382,6 +413,26 @@ const Partenaire = (props) => {
                     text={`Confirmez-vous vouloir changer le statut de ce partenaire ? Le nouveau statut sera réglé sur : ${activated ? 'Désactivé' : 'Actif'}`}
                     onCancel={() => { setConfirmDialogShown(false) }}
                     onConfirm={() => { changeStatus(); setConfirmDialogShown(false) }}
+                />
+                :
+                null
+            }
+            {
+                confirmStatusChangeDialogShown ?
+                <Dialog
+                    type="log"
+                    logLevel="success"
+                    message="Merci pour votre confirmation. Vous aurez toujours la possibilité d'infirmer et de confirmer votre accès aux données"
+                />
+                :
+                null
+            }
+            {
+                errorStatusChangeDialogShown ?
+                <Dialog
+                    type="log"
+                    logLevel="error"
+                    message="Une erreur est survenue. Veuillez réessayer plus tard"
                 />
                 :
                 null
