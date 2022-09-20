@@ -3,7 +3,7 @@ import axios from 'axios'
 class Back {
 
     constructor () {
-        this.baseUrl = 'http://localhost:3001'
+        this.baseUrl = 'https://ecf-backend.herokuapp.com'
     }
 
     // Utilisée pour se connecter
