@@ -90,8 +90,6 @@ const Partenaire = (props) => {
         })
     }
 
-    console.log('user rights:', props.rights)
-
     // Vérifier que l'utilisateur est connecté
     // Si non -> redirection vers page login
     // Si oui mais que partenaire ou structure : redirection en arrière

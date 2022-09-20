@@ -13,6 +13,8 @@ $red: #AA280C;
 // Autre constantes
 $small-radius: 5px;
 
+// Breakpoints
+$small-bp: 900px;
 
 html {
     margin: 0px;
@@ -52,6 +54,16 @@ html {
                 border: 1px solid $low-contrast;
                 height: 35px;
                 padding: 0 10px;
+
+                @media screen and (max-width: $small-bp) {
+                    left: 50%;
+                    transform: translateX(-50%);
+                    top: 10px;
+                    max-width: 280px;
+                    width: 95%;
+                }
+
+
 
                 input {
                     border: none;
@@ -463,6 +475,24 @@ html {
                             color: $dark;
                         }
                     }
+
+                    @media screen and (max-width: $small-bp) {
+                        bottom: 0px;
+                        top: auto;
+                        height: 40px;
+                        width: 100vw;
+                        max-width: none;
+                        border-radius: 10px 10px 0 0;
+                        flex-direction: row;
+                        align-items: center;
+
+                        #menu-links-container {
+                            margin-top: 0px;
+                            margin-left: 0px;
+                            flex-direction: row;
+                            margin-left: 20px;
+                        }
+                    }
                 }
 
                 #home-container {
@@ -472,6 +502,11 @@ html {
                     #home {
                         width: calc(100% - min(300px, 30%));
                         height: 100%;
+
+                        @media screen and (max-width: $small-bp) {
+                            margin-top: 10vh;
+                            width: 95%;
+                        }
                     }
                 }
 
@@ -483,6 +518,11 @@ html {
                         width: calc(100% - min(300px, 30%));
                         height: 100%;
                         margin-top: 20px;
+
+                        @media screen and (max-width: $small-bp) {
+                            margin-top: 10vh;
+                            width: 95%;
+                        }
 
                         #status-element {
                             font-size: 20px;
